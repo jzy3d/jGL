@@ -22,13 +22,13 @@ package jgl.context;
 /**
  * gl_polygon is the Polygon class of JavaGL 1.1.
  *
- * @version 	0.1, 13 Oct 1996
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 13 Oct 1996
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_polygon {
 
-    public int n;			/* n Corner Polygon */
-    public gl_vertex Polygon [];	/* Vertex Array */
+  public int n; /* n Corner Polygon */
+  public gl_vertex Polygon[]; /* Vertex Array */
 
 }

@@ -22,15 +22,14 @@ package jgl.glu;
 /**
  * nurbs_trim is one of the GLU class of JavaGL 2.1.
  *
- * @version 	0.1, 31 Oct 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 31 Oct 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class nurbs_trim {
 
-    public trim_list trim_loop;
-    public trim_segments segments;
-    public nurbs_trim next;
+  public trim_list trim_loop;
+  public trim_segments segments;
+  public nurbs_trim next;
 
 }
-

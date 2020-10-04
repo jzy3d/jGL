@@ -22,15 +22,16 @@ package jgl.context;
 /**
  * gl_vertex is the Vertex class of JavaGL 2.0.
  *
- * @version 	0.2, 11 Jul 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.2, 11 Jul 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_vertex {
 
-    public float Vertex [] = new float [4];	/* Vertex Position */
-    public int Color [];			/* Vertex Color */
-    public float TexCoord [];			/* Texture Coord */
+  public float Vertex[] = new float[4]; /* Vertex Position */
+  public int Color[]; /* Vertex Color */
+  public float TexCoord[]; /* Texture Coord */
 
-    public gl_vertex () {}
+  public gl_vertex() {
+  }
 }

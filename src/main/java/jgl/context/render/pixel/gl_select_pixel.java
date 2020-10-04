@@ -24,22 +24,22 @@ import jgl.context.gl_context;
 /**
  * gl_select_pixel is the pixel rendering class for selection of JavaGL 2.1.
  *
- * @version 	0.2, 28 Nov 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.2, 28 Nov 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_select_pixel extends gl_render_pixel {
 
-    public void put_pixel (int x, int y, float z, int color) {
-	CC.Select.update_hit_flag (z);
-    }
+  public void put_pixel(int x, int y, float z, int color) {
+    CC.Select.update_hit_flag(z);
+  }
 
-    public void put_pixel (int x, int y, float z, int c[]) {
-	CC.Select.update_hit_flag (z);
-    }
+  public void put_pixel(int x, int y, float z, int c[]) {
+    CC.Select.update_hit_flag(z);
+  }
 
-    public gl_select_pixel (gl_context cc) {
-	super (cc);
-    }
+  public gl_select_pixel(gl_context cc) {
+    super(cc);
+  }
 
 }

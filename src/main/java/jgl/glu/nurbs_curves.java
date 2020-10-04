@@ -24,58 +24,73 @@ import jgl.GLU;
 /**
  * nurbs_curves is one of the GLU NURBS class of JavaGL 2.1.
  *
- * @version 	0.1, 5 Nov 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 5 Nov 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class nurbs_curves {
 
-    public nurbs_curve geom    = new nurbs_curve ();
-    public nurbs_curve color   = new nurbs_curve ();
-    public nurbs_curve normal  = new nurbs_curve ();
-    public nurbs_curve texture = new nurbs_curve ();
+  public nurbs_curve geom = new nurbs_curve();
+  public nurbs_curve color = new nurbs_curve();
+  public nurbs_curve normal = new nurbs_curve();
+  public nurbs_curve texture = new nurbs_curve();
 
-    public int fill_knot (nurbs_knot geom_knot,   nurbs_knot color_knot,  
-			  nurbs_knot normal_knot, nurbs_knot texture_knot){
-	int err;
+  public int fill_knot(nurbs_knot geom_knot, nurbs_knot color_knot, nurbs_knot normal_knot, nurbs_knot texture_knot) {
+    int err;
 
-        err = geom_knot.fill (geom.c);
-        if (err != GLU.GLU_NO_ERROR) { return err; }
-
-        if (color.type != GLU.GLU_INVALID_ENUM) {
-            err = color_knot.fill (color.c);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-        }
-
-	if (normal.type != GLU.GLU_INVALID_ENUM) {
-            err = normal_knot.fill (normal.c);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-        }
-
-        if (texture.type != GLU.GLU_INVALID_ENUM) {
-            err = texture_knot.fill (texture.c);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-        }
-
-        return GLU.GLU_NO_ERROR;
+    err = geom_knot.fill(geom.c);
+    if (err != GLU.GLU_NO_ERROR) {
+      return err;
     }
 
-    public int test () {
-        int err = geom.test ();
-        if (err != GLU.GLU_NO_ERROR) { return (err); }
-        if (color.type != GLU.GLU_INVALID_ENUM) {
-            err = color.test ();
-            if (err != GLU.GLU_NO_ERROR) { return (err); }
-	}
-        if (normal.type != GLU.GLU_INVALID_ENUM) {
-            err = normal.test ();
-            if (err != GLU.GLU_NO_ERROR) { return (err); }
-        }
-        if (texture.type != GLU.GLU_INVALID_ENUM) {
-            err = texture.test ();
-            if (err != GLU.GLU_NO_ERROR) { return (err); }
-        }
-        return GLU.GLU_NO_ERROR;
+    if (color.type != GLU.GLU_INVALID_ENUM) {
+      err = color_knot.fill(color.c);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
     }
+
+    if (normal.type != GLU.GLU_INVALID_ENUM) {
+      err = normal_knot.fill(normal.c);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
+    }
+
+    if (texture.type != GLU.GLU_INVALID_ENUM) {
+      err = texture_knot.fill(texture.c);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
+    }
+
+    return GLU.GLU_NO_ERROR;
+  }
+
+  public int test() {
+    int err = geom.test();
+    if (err != GLU.GLU_NO_ERROR) {
+      return (err);
+    }
+    if (color.type != GLU.GLU_INVALID_ENUM) {
+      err = color.test();
+      if (err != GLU.GLU_NO_ERROR) {
+        return (err);
+      }
+    }
+    if (normal.type != GLU.GLU_INVALID_ENUM) {
+      err = normal.test();
+      if (err != GLU.GLU_NO_ERROR) {
+        return (err);
+      }
+    }
+    if (texture.type != GLU.GLU_INVALID_ENUM) {
+      err = texture.test();
+      if (err != GLU.GLU_NO_ERROR) {
+        return (err);
+      }
+    }
+    return GLU.GLU_NO_ERROR;
+  }
 
 }

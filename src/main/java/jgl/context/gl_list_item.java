@@ -19,23 +19,23 @@
 
 package jgl.context;
 
-import java.lang.Object;
-
 /**
  * gl_list_item is the List Item class of jGL 2.3.
  *
- * @version 	0.2, 10 Feb 2001
- * @author 	Robin Bing-Yu Chen
+ * @version 0.2, 10 Feb 2001
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_list_item {
 
-    public int NodeKind;
-    public int IntPtr [];
-    public float FloatPtr [];
-    public boolean BoolPtr [];
-    public Object ObjPtr;
+  public int NodeKind;
+  public int IntPtr[];
+  public float FloatPtr[];
+  public boolean BoolPtr[];
+  public Object ObjPtr;
 
-    public gl_list_item (int node) { NodeKind = node; }
+  public gl_list_item(int node) {
+    NodeKind = node;
+  }
 
 }

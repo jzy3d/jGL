@@ -24,27 +24,27 @@ import jgl.context.gl_context;
 /**
  * gl_stipple_pixel is pixel class for stipple of JavaGL 2.1.
  *
- * @version 	0.1, 3 Dec 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 3 Dec 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public abstract class gl_stipple_pixel extends gl_render_pixel {
 
-    /** Put a pixel for stippled polygon */
-    public void put_pixel_by_index (int index, int color) {
-	int y = index / CC.Viewport.Width;
-	int x = index - CC.Viewport.Width * y;
-	put_pixel (x, y, color);
-    }
+  /** Put a pixel for stippled polygon */
+  public void put_pixel_by_index(int index, int color) {
+    int y = index / CC.Viewport.Width;
+    int x = index - CC.Viewport.Width * y;
+    put_pixel(x, y, color);
+  }
 
-    public void put_pixel_by_index (int index, float z, int color) {
-	int y = index / CC.Viewport.Width;
-	int x = index - CC.Viewport.Width * y;
-	put_pixel (x, y, z, color);
-    }
+  public void put_pixel_by_index(int index, float z, int color) {
+    int y = index / CC.Viewport.Width;
+    int x = index - CC.Viewport.Width * y;
+    put_pixel(x, y, z, color);
+  }
 
-    public gl_stipple_pixel (gl_context cc) {
-	super (cc);
-    }
+  public gl_stipple_pixel(gl_context cc) {
+    super(cc);
+  }
 
 }

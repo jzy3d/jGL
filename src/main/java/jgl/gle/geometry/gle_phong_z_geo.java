@@ -23,21 +23,21 @@ import jgl.gle.gle_context;
 import jgl.gle.gle_pointer;
 
 /**
- * gle_phong_z_geo is the geometry class for phong shading with depth value of jGL 2.5.
+ * gle_phong_z_geo is the geometry class for phong shading with depth value of
+ * jGL 2.5.
  *
- * @version 	0.1, 31 Dec 2002
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 31 Dec 2002
+ * @author Robin Bing-Yu Chen
  */
 
 public class gle_phong_z_geo extends gle_phong_geo {
 
-    protected void draw_point (float p [], int i) {
-	CR.pixel.put_pixel ((int)(p[0]+(float)0.5), (int)(p[1]+(float)0.5), p[2],
-			    get_color(i));
-    }
+  protected void draw_point(float p[], int i) {
+    CR.pixel.put_pixel((int) (p[0] + (float) 0.5), (int) (p[1] + (float) 0.5), p[2], get_color(i));
+  }
 
-    public gle_phong_z_geo (gle_context cc, gle_pointer cr) {
-	super (cc, cr);
-    }
+  public gle_phong_z_geo(gle_context cc, gle_pointer cr) {
+    super(cc, cr);
+  }
 
 }

@@ -22,16 +22,16 @@ package jgl.context.attrib.pixel;
 /**
  * gl_pixel_map is the pixel map class of JavaGL 2.1.
  *
- * @version 	0.1, 17 Dec 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 17 Dec 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_pixel_map {
 
-    /** GL_x: glPixelMap() translation tables */
-    public float Table [] = new float [256]; // MAX_PIXEL_MAP_TABLE = 256
+  /** GL_x: glPixelMap() translation tables */
+  public float Table[] = new float[256]; // MAX_PIXEL_MAP_TABLE = 256
 
-    /** GL_x_SIZE: Size of table x */
-    public int Size = 1;
+  /** GL_x_SIZE: Size of table x */
+  public int Size = 1;
 
 }

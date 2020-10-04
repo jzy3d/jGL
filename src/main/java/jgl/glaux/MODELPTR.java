@@ -29,9 +29,9 @@ package jgl.glaux;
 /** structure for each geometric object */
 public class MODELPTR {
 
-    public int list;		/*  display list to render object	*/
-    public MODELPTR ptr;	/*  pointer to next object		*/
-    public int numParam;	/*  # of parameters			*/
-    public double params [];	/*  array with parameters		*/
+  public int list; /* display list to render object */
+  public MODELPTR ptr; /* pointer to next object */
+  public int numParam; /* # of parameters */
+  public double params[]; /* array with parameters */
 
 }

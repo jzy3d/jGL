@@ -19,37 +19,38 @@
 
 package jgl;
 
-import jgl.GL;
-import jgl.gle.*;
 import jgl.context.gl_object;
+import jgl.gle.gle_context;
 
 /**
  * GLE is the extension class of jGL 2.5.
  *
- * @version 	0.1, 23 Dec 2002
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 23 Dec 2002
+ * @author Robin Bing-Yu Chen
  */
 
 public class GLE extends GL {
 
-    /* Constant of GLE */
-    public static final int GL_PHONG = GL_SMOOTH+1;
+  /* Constant of GLE */
+  public static final int GL_PHONG = GL_SMOOTH + 1;
 
-    public void glShadeModel (int mode) {
-	if (mode != GL_PHONG) super.glShadeModel(mode);
-	else CC.gl_shade_model (mode);
-    }
+  public void glShadeModel(int mode) {
+    if (mode != GL_PHONG)
+      super.glShadeModel(mode);
+    else
+      CC.gl_shade_model(mode);
+  }
 
-    public GLE (GL myGL) {
-	Context = new gle_context ();
-	CC = (gl_object)Context;
-	myGL.Context = Context;
-	myGL.CC = CC;
-	List = myGL.List;
-	JavaComponent = myGL.JavaComponent;
-	JavaImage = myGL.JavaImage;
-	StartX = myGL.StartX;
-	StartY = myGL.StartY;
-    }
+  public GLE(GL myGL) {
+    Context = new gle_context();
+    CC = (gl_object) Context;
+    myGL.Context = Context;
+    myGL.CC = CC;
+    List = myGL.List;
+    JavaComponent = myGL.JavaComponent;
+    JavaImage = myGL.JavaImage;
+    StartX = myGL.StartX;
+    StartY = myGL.StartY;
+  }
 
 }

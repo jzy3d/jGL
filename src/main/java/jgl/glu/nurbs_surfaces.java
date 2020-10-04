@@ -24,68 +24,90 @@ import jgl.GLU;
 /**
  * nurbs_surfaces is one of the GLU NURBS class of JavaGL 2.1.
  *
- * @version 	0.1, 5 Nov 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 5 Nov 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class nurbs_surfaces {
 
-    public nurbs_surface geom    = new nurbs_surface ();
-    public nurbs_surface color   = new nurbs_surface ();
-    public nurbs_surface normal  = new nurbs_surface ();
-    public nurbs_surface texture = new nurbs_surface ();
+  public nurbs_surface geom = new nurbs_surface();
+  public nurbs_surface color = new nurbs_surface();
+  public nurbs_surface normal = new nurbs_surface();
+  public nurbs_surface texture = new nurbs_surface();
 
-    public int fill_knot (nurbs_knot geom_s_knot,    nurbs_knot geom_t_knot,
-			  nurbs_knot color_s_knot,   nurbs_knot color_t_knot,
-			  nurbs_knot normal_s_knot,  nurbs_knot normal_t_knot,
-			  nurbs_knot texture_s_knot, nurbs_knot texture_t_knot){
-	int err;
+  public int fill_knot(nurbs_knot geom_s_knot, nurbs_knot geom_t_knot, nurbs_knot color_s_knot, nurbs_knot color_t_knot,
+      nurbs_knot normal_s_knot, nurbs_knot normal_t_knot, nurbs_knot texture_s_knot, nurbs_knot texture_t_knot) {
+    int err;
 
-        err = geom_s_knot.fill (geom.s);
-        if (err != GLU.GLU_NO_ERROR) { return err; }
-        err = geom_t_knot.fill (geom.t);
-        if (err != GLU.GLU_NO_ERROR) { return err; }
-
-        if (color.type != GLU.GLU_INVALID_ENUM) {
-            err = color_s_knot.fill (color.s);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-            err = color_t_knot.fill (color.t);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-        }
-
-	if (normal.type != GLU.GLU_INVALID_ENUM) {
-            err = normal_s_knot.fill (normal.s);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-            err = normal_t_knot.fill (normal.t);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-        }
-
-        if (texture.type != GLU.GLU_INVALID_ENUM) {
-            err = texture_s_knot.fill (texture.s);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-            err = texture_t_knot.fill (texture.t);
-            if (err != GLU.GLU_NO_ERROR) { return err; }
-        }
-
-        return GLU.GLU_NO_ERROR;
+    err = geom_s_knot.fill(geom.s);
+    if (err != GLU.GLU_NO_ERROR) {
+      return err;
+    }
+    err = geom_t_knot.fill(geom.t);
+    if (err != GLU.GLU_NO_ERROR) {
+      return err;
     }
 
-    public int test () {
-        int err = geom.test ();
-        if (err != GLU.GLU_NO_ERROR) { return (err); }
-        if (color.type != GLU.GLU_INVALID_ENUM) {
-            err = color.test ();
-            if (err != GLU.GLU_NO_ERROR) { return (err); }
-	}
-        if (normal.type != GLU.GLU_INVALID_ENUM) {
-            err = normal.test ();
-            if (err != GLU.GLU_NO_ERROR) { return (err); }
-        }
-        if (texture.type != GLU.GLU_INVALID_ENUM) {
-            err = texture.test ();
-            if (err != GLU.GLU_NO_ERROR) { return (err); }
-        }
-        return GLU.GLU_NO_ERROR;
+    if (color.type != GLU.GLU_INVALID_ENUM) {
+      err = color_s_knot.fill(color.s);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
+      err = color_t_knot.fill(color.t);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
     }
+
+    if (normal.type != GLU.GLU_INVALID_ENUM) {
+      err = normal_s_knot.fill(normal.s);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
+      err = normal_t_knot.fill(normal.t);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
+    }
+
+    if (texture.type != GLU.GLU_INVALID_ENUM) {
+      err = texture_s_knot.fill(texture.s);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
+      err = texture_t_knot.fill(texture.t);
+      if (err != GLU.GLU_NO_ERROR) {
+        return err;
+      }
+    }
+
+    return GLU.GLU_NO_ERROR;
+  }
+
+  public int test() {
+    int err = geom.test();
+    if (err != GLU.GLU_NO_ERROR) {
+      return (err);
+    }
+    if (color.type != GLU.GLU_INVALID_ENUM) {
+      err = color.test();
+      if (err != GLU.GLU_NO_ERROR) {
+        return (err);
+      }
+    }
+    if (normal.type != GLU.GLU_INVALID_ENUM) {
+      err = normal.test();
+      if (err != GLU.GLU_NO_ERROR) {
+        return (err);
+      }
+    }
+    if (texture.type != GLU.GLU_INVALID_ENUM) {
+      err = texture.test();
+      if (err != GLU.GLU_NO_ERROR) {
+        return (err);
+      }
+    }
+    return GLU.GLU_NO_ERROR;
+  }
 
 }

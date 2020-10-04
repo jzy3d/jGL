@@ -24,27 +24,27 @@ import jgl.context.gl_context;
 /**
  * gle_context is the extension context class of jGL 2.5.
  *
- * @version 	0.1, 30 Dec 2002
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 30 Dec 2002
+ * @author Robin Bing-Yu Chen
  */
 
 public class gle_context extends gl_context {
 
-    public int ColorTransformation (float coord [], float normal []) {
-	if (Lighting.Enable) {
-	    return (Lighting.color_vertex (coord, normal));
-	} else {
-	    return (Current.IntColor);
-	}
+  public int ColorTransformation(float coord[], float normal[]) {
+    if (Lighting.Enable) {
+      return (Lighting.color_vertex(coord, normal));
+    } else {
+      return (Current.IntColor);
     }
+  }
 
-    public void gl_shade_model (int mode) {
-    	Lighting.ShadeModel = mode;
-	((gle_pointer)CR).gl_phong ();
-    }
-    
-    public gle_context () {
-	CR = new gle_pointer (this);
-    }
+  public void gl_shade_model(int mode) {
+    Lighting.ShadeModel = mode;
+    ((gle_pointer) CR).gl_phong();
+  }
+
+  public gle_context() {
+    CR = new gle_pointer(this);
+  }
 
 }

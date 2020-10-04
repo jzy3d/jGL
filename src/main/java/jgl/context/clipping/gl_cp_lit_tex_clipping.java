@@ -26,20 +26,20 @@ import jgl.context.gl_vertex;
  * gl_cp_lit_tex_clipping is the clipping class for clipping plane with
  * texturing and lighting of jGL 2.3.
  *
- * @version 	0.1, 16 Feb 2001
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 16 Feb 2001
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_cp_lit_tex_clipping extends gl_cp_color_clipping {
 
-    protected gl_vertex inter_point (gl_vertex v1, gl_vertex v2, int i, int j) {
-	gl_vertex temp = super.inter_point (v1, v2, i, j);
-	temp.TexCoord = inter_tex (v1, v2);
-	return temp;
-    }
+  protected gl_vertex inter_point(gl_vertex v1, gl_vertex v2, int i, int j) {
+    gl_vertex temp = super.inter_point(v1, v2, i, j);
+    temp.TexCoord = inter_tex(v1, v2);
+    return temp;
+  }
 
-    public gl_cp_lit_tex_clipping (gl_context  cc) {
-	super (cc);
-    }
+  public gl_cp_lit_tex_clipping(gl_context cc) {
+    super(cc);
+  }
 
 }

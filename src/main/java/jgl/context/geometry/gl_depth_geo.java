@@ -25,20 +25,19 @@ import jgl.context.gl_pointer;
 /**
  * gl_depth_geo is the geometry class with depth value of JavaGL 2.1.
  *
- * @version 	0.3, 3 Dec 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.3, 3 Dec 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_depth_geo extends gl_geometry {
 
-    protected void draw_point (float p [], int i) {
-	System.out.println("DRAW POINT");
-	CR.pixel.put_pixel ((int)(p[0]+(float)0.5), (int)(p[1]+(float)0.5), p[2],
-			    CC.ColorTransformation ());
-    }
+  protected void draw_point(float p[], int i) {
+    System.out.println("DRAW POINT");
+    CR.pixel.put_pixel((int) (p[0] + (float) 0.5), (int) (p[1] + (float) 0.5), p[2], CC.ColorTransformation());
+  }
 
-    public gl_depth_geo (gl_context cc, gl_pointer cr) {
-	super (cc, cr);
-    }
+  public gl_depth_geo(gl_context cc, gl_pointer cr) {
+    super(cc, cr);
+  }
 
 }

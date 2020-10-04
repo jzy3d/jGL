@@ -23,21 +23,21 @@ import jgl.context.gl_context;
 import jgl.context.gl_pointer;
 
 /**
- * gl_smooth_z_geo is geometry class for smooth shading with depth of JavaGL 2.1.
+ * gl_smooth_z_geo is geometry class for smooth shading with depth of JavaGL
+ * 2.1.
  *
- * @version 	0.4, 4 Dec 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.4, 4 Dec 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_smooth_z_geo extends gl_smooth_geo {
 
-    protected void draw_point (float p [], int i) {
-	CR.pixel.put_pixel ((int)(p[0]+(float)0.5), (int)(p[1]+(float)0.5), p[2],
-			    VertexColor [i]);
-    }
+  protected void draw_point(float p[], int i) {
+    CR.pixel.put_pixel((int) (p[0] + (float) 0.5), (int) (p[1] + (float) 0.5), p[2], VertexColor[i]);
+  }
 
-    public gl_smooth_z_geo (gl_context cc, gl_pointer cr) {
-	super (cc, cr);
-    }
+  public gl_smooth_z_geo(gl_context cc, gl_pointer cr) {
+    super(cc, cr);
+  }
 
 }

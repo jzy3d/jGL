@@ -24,27 +24,27 @@ import jgl.context.gl_util;
 /**
  * gl_pixel_transfer is the pixel transfer class of JavaGL 2.1.
  *
- * @version 	0.1, 17 Dec 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 17 Dec 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_pixel_transfer {
 
-    /** GL_x_SCALE: Value of GL_x_SCALE */
-    public float Scale = 1;
+  /** GL_x_SCALE: Value of GL_x_SCALE */
+  public float Scale = 1;
 
-    /** GL_x_BIAS: Value of GL_x_BIAS */
-    public float Bias = 0;
-    
-    public float apply_bias_scale (float value) {
-    	float temp = value * Scale + Bias;
-	return gl_util.CLAMP (temp, 0.0f, 1.0f);
-    }
-    
-    public byte apply_bias_scale (byte value) {
-    	float temp = ((float)value/255.0f) * Scale + Bias;
-	temp = gl_util.CLAMP (temp, 0.0f, 1.0f);
-	return (byte)(temp*255.0f);
-    }
+  /** GL_x_BIAS: Value of GL_x_BIAS */
+  public float Bias = 0;
+
+  public float apply_bias_scale(float value) {
+    float temp = value * Scale + Bias;
+    return gl_util.CLAMP(temp, 0.0f, 1.0f);
+  }
+
+  public byte apply_bias_scale(byte value) {
+    float temp = ((float) value / 255.0f) * Scale + Bias;
+    temp = gl_util.CLAMP(temp, 0.0f, 1.0f);
+    return (byte) (temp * 255.0f);
+  }
 
 }

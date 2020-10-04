@@ -24,16 +24,16 @@ import java.lang.reflect.Method;
 /**
  * GLUquadricObj is one of the GLU class of JavaGL 1.1.
  *
- * @version 	0.1, 30 Aug 1996
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 30 Aug 1996
+ * @author Robin Bing-Yu Chen
  */
 
 public class GLUquadricObj {
 
-    public int DrawStyle;	/* GLU_FILL, LINE, SILHOUETTE, or POINT */
-    public int Orientation;	/* GLU_INSIDE or GLU_OUTSIDE */
-    public boolean TextureFlag;	/* Generate texture coords? */
-    public int Normals;		/* GLU_NONE, GLU_FLAT, or GLU_SMOOTH */
-    public Method ErrorFunc;	/* Error handler callback function */
+  public int DrawStyle; /* GLU_FILL, LINE, SILHOUETTE, or POINT */
+  public int Orientation; /* GLU_INSIDE or GLU_OUTSIDE */
+  public boolean TextureFlag; /* Generate texture coords? */
+  public int Normals; /* GLU_NONE, GLU_FLAT, or GLU_SMOOTH */
+  public Method ErrorFunc; /* Error handler callback function */
 
 }

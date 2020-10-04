@@ -23,29 +23,29 @@ import jgl.context.gl_context;
 import jgl.context.gl_vertex;
 
 /**
- * gl_vp_color_clipping is the clipping class for viewport with color of
- * JavaGL 2.1.
+ * gl_vp_color_clipping is the clipping class for viewport with color of JavaGL
+ * 2.1.
  *
- * @version 	0.4, 3 Dev 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.4, 3 Dev 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_vp_color_clipping extends gl_vp_clipping {
 
-    protected gl_vertex inter_point_pos (gl_vertex v1, gl_vertex v2, int xy) {
-	gl_vertex temp = super.inter_point_pos (v1, v2, xy);
-	temp.Color = inter_color (v1, v2);
-	return temp;
-    }
+  protected gl_vertex inter_point_pos(gl_vertex v1, gl_vertex v2, int xy) {
+    gl_vertex temp = super.inter_point_pos(v1, v2, xy);
+    temp.Color = inter_color(v1, v2);
+    return temp;
+  }
 
-    protected gl_vertex inter_point_neg (gl_vertex v1, gl_vertex v2, int xy) {
-	gl_vertex temp = super.inter_point_neg (v1, v2, xy);
-	temp.Color = inter_color (v1, v2);
-	return temp;
-    }
+  protected gl_vertex inter_point_neg(gl_vertex v1, gl_vertex v2, int xy) {
+    gl_vertex temp = super.inter_point_neg(v1, v2, xy);
+    temp.Color = inter_color(v1, v2);
+    return temp;
+  }
 
-    public gl_vp_color_clipping (gl_context cc) {
-	super (cc);
-    }
+  public gl_vp_color_clipping(gl_context cc) {
+    super(cc);
+  }
 
 }

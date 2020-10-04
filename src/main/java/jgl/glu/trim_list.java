@@ -22,17 +22,16 @@ package jgl.glu;
 /**
  * trim_list is one of the GLU class of JavaGL 2.1.
  *
- * @version 	0.1, 31 Oct 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 31 Oct 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class trim_list {
 
-    public int type;
-    
+  public int type;
+
 //    public pwl_curve p_curve;
 //    public curve n_curve;
-    public trim_list next;
+  public trim_list next;
 
 }
-

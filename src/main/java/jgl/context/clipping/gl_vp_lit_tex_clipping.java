@@ -23,29 +23,29 @@ import jgl.context.gl_context;
 import jgl.context.gl_vertex;
 
 /**
- * gl_vp_lit_tex_clipping is the clipping class for viewport with texturing
- * and lighting of jGL 2.3.
+ * gl_vp_lit_tex_clipping is the clipping class for viewport with texturing and
+ * lighting of jGL 2.3.
  *
- * @version 	0.1, 16 Feb 2001
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 16 Feb 2001
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_vp_lit_tex_clipping extends gl_vp_color_clipping {
 
-    protected gl_vertex inter_point_pos (gl_vertex v1, gl_vertex v2, int xy) {
-	gl_vertex temp = super.inter_point_pos (v1, v2, xy);
-	temp.TexCoord = inter_tex (v1, v2);
-	return temp;
-    }
+  protected gl_vertex inter_point_pos(gl_vertex v1, gl_vertex v2, int xy) {
+    gl_vertex temp = super.inter_point_pos(v1, v2, xy);
+    temp.TexCoord = inter_tex(v1, v2);
+    return temp;
+  }
 
-    protected gl_vertex inter_point_neg (gl_vertex v1, gl_vertex v2, int xy) {
-	gl_vertex temp = super.inter_point_neg (v1, v2, xy);
-	temp.TexCoord = inter_tex (v1, v2);
-	return temp;
-    }
+  protected gl_vertex inter_point_neg(gl_vertex v1, gl_vertex v2, int xy) {
+    gl_vertex temp = super.inter_point_neg(v1, v2, xy);
+    temp.TexCoord = inter_tex(v1, v2);
+    return temp;
+  }
 
-    public gl_vp_lit_tex_clipping (gl_context cc) {
-	super (cc);
-    }
+  public gl_vp_lit_tex_clipping(gl_context cc) {
+    super(cc);
+  }
 
 }

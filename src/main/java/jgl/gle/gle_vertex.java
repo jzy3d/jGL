@@ -24,18 +24,18 @@ import jgl.context.gl_vertex;
 /**
  * gle_vertex is the extension Vertex class of jGL 2.5.
  *
- * @version 	0.1, 30 Dec 2002
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 30 Dec 2002
+ * @author Robin Bing-Yu Chen
  */
 
 public class gle_vertex extends gl_vertex {
 
-    public float Normal [];			/* Vertex Normal */
+  public float Normal[]; /* Vertex Normal */
 
-    public gle_vertex (gl_vertex v) {
-	Vertex   = v.Vertex;
-	Color    = v.Color;
-	TexCoord = v.TexCoord;
-    }
+  public gle_vertex(gl_vertex v) {
+    Vertex = v.Vertex;
+    Color = v.Color;
+    TexCoord = v.TexCoord;
+  }
 
 }

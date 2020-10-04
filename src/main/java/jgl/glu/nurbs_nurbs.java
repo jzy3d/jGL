@@ -20,16 +20,16 @@
 package jgl.glu;
 
 /**
- * nurbs_nurbs is the super class of curve and surface of GLU NURBS of JavaGL 2.1.
+ * nurbs_nurbs is the super class of curve and surface of GLU NURBS of JavaGL
+ * 2.1.
  *
- * @version 	0.1, 31 Oct 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 31 Oct 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public abstract class nurbs_nurbs {
 
-    public int dim;
-    public int type;
+  public int dim;
+  public int type;
 
 }
-

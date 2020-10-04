@@ -22,16 +22,15 @@ package jgl.glu;
 /**
  * trim_segments is one of the GLU class of JavaGL 2.1.
  *
- * @version 	0.1, 31 Oct 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.1, 31 Oct 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class trim_segments {
 
-    public float points [];
-    public int pt_cnt;
-    public int seg_array_len;
-    public trim_segments next;
+  public float points[];
+  public int pt_cnt;
+  public int seg_array_len;
+  public trim_segments next;
 
 }
-

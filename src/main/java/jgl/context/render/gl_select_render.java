@@ -20,32 +20,32 @@
 package jgl.context.render;
 
 import jgl.context.gl_context;
-import jgl.context.gl_vertex;
 import jgl.context.gl_polygon;
+import jgl.context.gl_vertex;
 
 /**
  * gl_select_render is the rendering class for selection of JavaGL 2.1.
  *
- * @version 	0.2, 29 Nov 1999
- * @author 	Robin Bing-Yu Chen
+ * @version 0.2, 29 Nov 1999
+ * @author Robin Bing-Yu Chen
  */
 
 public class gl_select_render extends gl_render {
 
-    public void draw_line (gl_vertex v1, gl_vertex v2) {
-	CC.Select.update_hit_flag (v1.Vertex[2]);
-        CC.Select.update_hit_flag (v2.Vertex[2]);
-    }
+  public void draw_line(gl_vertex v1, gl_vertex v2) {
+    CC.Select.update_hit_flag(v1.Vertex[2]);
+    CC.Select.update_hit_flag(v2.Vertex[2]);
+  }
 
-    public void draw_polygon (gl_polygon p) {
-	int i;
-	for (i = 0; i < p.n; i++) {
-	    CC.Select.update_hit_flag (p.Polygon[i].Vertex[2]);
-	}
+  public void draw_polygon(gl_polygon p) {
+    int i;
+    for (i = 0; i < p.n; i++) {
+      CC.Select.update_hit_flag(p.Polygon[i].Vertex[2]);
     }
+  }
 
-    public gl_select_render (gl_context cc) {
-	super (cc);
-    }
+  public gl_select_render(gl_context cc) {
+    super(cc);
+  }
 
 }
