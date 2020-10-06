@@ -39,7 +39,7 @@ public class simple extends Applet {
     myGL.glLoadIdentity();
     myGL.glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
     myGL.glBegin(GL.GL_POLYGON);
-    myGL.glVertex2f(-0.5f, -0.5f);
+    myGL.glVertex2f(-1.5f, -0.5f);
     myGL.glVertex2f(-0.5f, 0.5f);
     myGL.glVertex2f(0.5f, 0.5f);
     myGL.glVertex2f(0.5f, -0.5f);

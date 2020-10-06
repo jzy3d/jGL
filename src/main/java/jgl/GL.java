@@ -634,17 +634,26 @@ public class GL {
    * types of Java instead of OpenGL
    *
    * Java type GL type Number of Bits Description
-   * --------------------------------------------------------------- void GLvoid 0
-   * bit boolean GLboolean 1 bit Boolean byte GLbyte 8 bits signed binary integer
-   * byte GLubyte 8 bits unsigned binary integer short GLshort 16 bits signed
-   * binary integer short GLushort 16 bits unsigned binary integer int GLint 32
-   * bits signed binary integer int GLuint 32 bits unsigned binary integer int
-   * GLsizei 32 bits Non-negative binary integer size int GLenum 32 bits
-   * Enumerated binary integer value int GLbitfield 32 bits Bit field float
-   * GLfloat 32 bits Floating-point value float GLclampf 32 bits Floating-point
-   * value clamped to [0,1] double GLdouble 64 bits Floating-point value double
-   * GLclampd 64 bits Floating-point value clamped to [0,1] Object GLvoid * ??
-   * bits Pointer to arbitrary data types
+   * --------------------------------------------------------------- 
+   * <pre>
+   * void GLvoid 0 bit 
+   * boolean GLboolean 1 bit 
+   * Boolean byte GLbyte 8 bits 
+   * signed binary integer byte GLubyte 8 bits 
+   * unsigned binary integer short GLshort 16 bits 
+   * signed binary integer short GLushort 16 bits
+   * unsigned binary integer int GLint 32 bits 
+   * signed binary integer int GLuint 32 bits
+   * unsigned binary integer int GLsizei 32 bits 
+   * Non-negative binary integer size int GLenum 32 bits
+   * Enumerated binary integer value int GLbitfield 32 bits 
+   * Bit field float GLfloat 32 bits 
+   * Floating-point value float GLclampf 32 bits 
+   * Floating-point value clamped to [0,1] double GLdouble 64 bits 
+   * Floating-point value double GLclampd 64 bits
+   * Floating-point value clamped to [0,1] Object GLvoid * ?? bits 
+   * Pointer to arbitrary data types
+   * </pre>
    */
 
   /* only called by glEnable and glDisable */
