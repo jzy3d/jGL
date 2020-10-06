@@ -1,6 +1,6 @@
 # jGL
 
-A pure Java implementation of OpenGL, still [online](http://graphics.im.ntu.edu.tw/~robin/jGL/)
+A pure Java implementation of OpenGL, still [online](http://graphics.im.ntu.edu.tw/~robin/jGL/) with [example gallery](http://graphics.im.ntu.edu.tw/~robin/jGL/Example/index.html) and an [LGPL licence](http://www.gnu.org/licenses/lgpl-3.0.html)
 
 
 
