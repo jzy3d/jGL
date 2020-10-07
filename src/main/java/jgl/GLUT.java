@@ -608,17 +608,23 @@ public class GLUT implements Runnable {
           displayMethod.invoke(JavaComponent, (Object[]) null);
         } catch (IllegalAccessException ee) {
           System.out.println("IllegalAccessException while DisplayFunc");
+          ee.printStackTrace();
         } catch (InvocationTargetException ee) {
           System.out.println("InvocationTargetException while DisplayFunc");
+          ee.printStackTrace();
         } catch (NullPointerException ee) {
           // ignore
+          ee.printStackTrace();
         }
       } catch (IllegalAccessException ee) {
         System.out.println("IllegalAccessException while ReshapeFunc");
+        ee.printStackTrace();
       } catch (InvocationTargetException ee) {
         System.out.println("InvocationTargetException while ReshapeFunc");
+        ee.printStackTrace();
       } catch (NullPointerException ee) {
         // ignore
+        ee.printStackTrace();
       }
       break;
     }
