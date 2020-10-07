@@ -313,8 +313,10 @@ public class GLUT implements Runnable {
         displayMethod.invoke(JavaComponent, (Object[]) null);
       } catch (IllegalAccessException e) {
         System.out.println("IllegalAccessException while DisplayFunc");
+        e.printStackTrace();
       } catch (InvocationTargetException e) {
         System.out.println("InvocationTargetException while DisplayFunc");
+        e.printStackTrace();
       }
     }
   }
@@ -340,9 +342,12 @@ public class GLUT implements Runnable {
       displayMethod.invoke(JavaComponent, (Object[]) null);
     } catch (IllegalAccessException e) {
       System.out.println("IllegalAccessException while DisplayFunc");
+      e.printStackTrace();
     } catch (InvocationTargetException e) {
       System.out.println("InvocationTargetException while DisplayFunc");
+      e.printStackTrace();
     } catch (NullPointerException ee) {
+      ee.printStackTrace();
       // ignore
     }
     JavaComponent.repaint();
@@ -470,6 +475,7 @@ public class GLUT implements Runnable {
     teapot.Teapot(JavaGL, 14, (float) scale, GL.GL_FILL);
   }
 
+  // -------------- GLUT MENU ----------------- //
   /**
    * GLUT menu sub-API.
    */
@@ -568,6 +574,8 @@ public class GLUT implements Runnable {
     JavaComponent.remove(currentMenu.glutGetMenu());
   }
 
+  // ----- GLUT CALLBACKS INVOCATION UPON CANVAS, MOUSE AND KEYBOARD EVENTS ----- //
+  
   /**
    * GLUT window callback sub-API.
    */
@@ -786,6 +794,9 @@ public class GLUT implements Runnable {
       ((GLApplet) JavaComponent).glut_enable_events(cap, state);
     }
   }
+  
+  
+  // -------------- REGISTER GLUT CALLBACKS ----------------- //
 
   /** void glutDisplayFunc (void (*func)(void)) */
   public void glutDisplayFunc(String func) {
@@ -813,10 +824,13 @@ public class GLUT implements Runnable {
         glut_enable_events(AWTEvent.COMPONENT_EVENT_MASK, true);
       } catch (NoSuchMethodException e) {
         System.out.println("No method named " + func);
+        e.printStackTrace();
       } catch (IllegalAccessException e) {
         System.out.println("IllegalAccessException while ReshapeFunc");
+        e.printStackTrace();
       } catch (InvocationTargetException e) {
         System.out.println("InvocationTargetException while ReshapeFunc");
+        e.printStackTrace();
       }
     } else {
       glut_enable_events(AWTEvent.COMPONENT_EVENT_MASK, false);

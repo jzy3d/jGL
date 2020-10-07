@@ -55,5 +55,4 @@ public class GLCanvas extends Canvas {
   public void paint(Graphics g) {
     myGL.glXSwapBuffers(g, this);
   }
-
 }
