@@ -55,4 +55,18 @@ public class GLCanvas extends Canvas {
   public void paint(Graphics g) {
     myGL.glXSwapBuffers(g, this);
   }
+
+  public GL getGL() {
+    return myGL;
+  }
+
+  public GLU getGLU() {
+    return myGLU;
+  }
+
+  public GLUT getGLUT() {
+    return myUT;
+  }
+  
+  
 }
