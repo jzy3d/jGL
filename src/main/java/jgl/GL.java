@@ -1430,7 +1430,7 @@ public class GL {
   /** GLvoid glGetIntegerv (GLenum pname, GLint *params) */
   public void glGetIntegerv(int pname, int params[]) {
     if (CC.Mode != None) {
-      CC.gl_error(GL_INVALID_OPERATION, "glGetIntegerv");
+      CC.gl_error(GL_INVALID_OPERATION, "glGetIntegerv - current mode is " + CC.Mode + ", expected " + None);
       return;
     }
     switch (pname) {
@@ -1712,7 +1712,9 @@ public class GL {
     }
   }
 
-  /** GLvoid glFlush (GLvoid) */
+  /** Creates a new {@link MemoryImageSource} based on the current color buffer. 
+   * 
+   * This image can later be applied to a {@link Component} using {@link #glXSwapBuffers(Graphics, ImageObserver)}*/
   public void glFlush() {
     if (Context.RenderMode != GL_RENDER) {
       return;
@@ -1851,11 +1853,11 @@ public class GL {
   /** GLvoid glViewport (GLint x, GLint y, GLsizei width, GLsizei height); */
   public void glViewport(int x, int y, int width, int height) {
     if (width < 0 || height < 0) {
-      CC.gl_error(GL_INVALID_VALUE, "glViewport(width or height)");
+      CC.gl_error(GL_INVALID_VALUE, "glViewport(width="+width + ", height="+height+")");
       return;
     }
     if (CC.Mode != None) {
-      CC.gl_error(GL_INVALID_OPERATION, "glViewport");
+      CC.gl_error(GL_INVALID_OPERATION, "glViewport - current mode is " + CC.Mode + ", expected " + None);
       return;
     }
     if (width < 1) {
@@ -1877,7 +1879,7 @@ public class GL {
   /** GLvoid glPushMatrix (GLvoid) */
   public void glPushMatrix() {
     if (CC.Mode != None) {
-      CC.gl_error(GL_INVALID_OPERATION, "glPushMatrix");
+      CC.gl_error(GL_INVALID_OPERATION, "glPushMatrix - current mode is " + CC.Mode + ", expected " + None);
       return;
     }
     CC.gl_push_matrix();
@@ -1886,7 +1888,7 @@ public class GL {
   /** GLvoid glPopMatrix (GLvoid) */
   public void glPopMatrix() {
     if (CC.Mode != None) {
-      CC.gl_error(GL_INVALID_OPERATION, "glPopMatrix");
+      CC.gl_error(GL_INVALID_OPERATION, "glPopMatrix - current mode is " + CC.Mode + ", expected " + None);
       return;
     }
     CC.gl_pop_matrix();

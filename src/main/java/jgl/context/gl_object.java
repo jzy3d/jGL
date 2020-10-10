@@ -34,6 +34,7 @@ import jgl.context.attrib.eval.gl_eval_map2;
 public abstract class gl_object {
 
   protected final boolean debug = true;
+  protected final boolean exception = true;
 
   public static final float IDENTITY[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 
@@ -113,35 +114,48 @@ public abstract class gl_object {
 
   /** Public Member Functions */
   public void gl_error(int error, String s) {
+    
+    
+    
     if (debug) {
-      System.out.print("jGL Error (");
+      StringBuffer sb = new StringBuffer();
+      sb.append("jGL Error (");
+
       switch (error) {
       case GL.GL_NO_ERROR:
-        System.out.print("GL_NO_ERROR");
+        sb.append("GL_NO_ERROR");
         break;
       case GL.GL_INVALID_VALUE:
-        System.out.print("GL_INVALID_VALUE");
+        sb.append("GL_INVALID_VALUE");
         break;
       case GL.GL_INVALID_ENUM:
-        System.out.print("GL_INVALID_ENUM");
+        sb.append("GL_INVALID_ENUM");
         break;
       case GL.GL_INVALID_OPERATION:
-        System.out.print("GL_INVALID_OPERATION");
+        sb.append("GL_INVALID_OPERATION");
         break;
       case GL.GL_STACK_OVERFLOW:
-        System.out.print("GL_STACK_OVERFLOW");
+        sb.append("GL_STACK_OVERFLOW");
         break;
       case GL.GL_STACK_UNDERFLOW:
-        System.out.print("GL_STACK_UNDERFLOW");
+        sb.append("GL_STACK_UNDERFLOW");
         break;
       case GL.GL_OUT_OF_MEMORY:
-        System.out.print("GL_OUT_OF_MEMORY");
+        sb.append("GL_OUT_OF_MEMORY");
         break;
       default:
-        System.out.print("unknown");
+        sb.append("unknown");
         break;
       }
-      System.out.println("): " + s);
+      //System.out.println("): " + s);
+      sb.append("): " + s);
+      
+      if(exception) {
+        throw new RuntimeException(sb.toString());
+      }
+      else {
+        System.err.println(sb.toString());
+      }
     }
     if (ErrorValue == GL.GL_NO_ERROR) {
       ErrorValue = error;
