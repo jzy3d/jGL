@@ -22,6 +22,7 @@ package jgl;
 import java.awt.AWTEvent;
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,8 @@ public class GLCanvas extends Canvas {
     firePostPaintEvents(g);
   }
 
+  // ************ RETRIEVE RENDERING CONTEXT ************ //
+
   public GL getGL() {
     return myGL;
   }
@@ -96,6 +99,23 @@ public class GLCanvas extends Canvas {
     for(PaintListener listener: listeners) {
       listener.postPaint(g);
     }
+  }
+  
+  // ************ MANUAL REPAINT ************ //
+
+  
+  /** 
+   * Can be used to update image if camera has changed position.
+   * 
+   *  FIXME : Warning if this is invoked by a thread external to AWT, 
+   *  maybe this will require to redraw GL 
+   *  while GL is already used by AWT. */
+  public void forceRepaint() {
+    // This makes GLUT invoke the myReshape function
+    processEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_RESIZED));
+
+    // This triggers copy of newly generated picture to the GLCanvas
+    repaint();
   }
   
 }
