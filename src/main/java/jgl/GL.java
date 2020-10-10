@@ -627,6 +627,10 @@ public class GL {
 //    protected MemoryImageSource JavaImageSource;
   protected int StartX = 0;
   protected int StartY = 0;
+  
+  public Image getRenderedImage() {
+    return JavaImage;
+  }
 
   /**
    *

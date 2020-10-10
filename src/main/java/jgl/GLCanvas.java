@@ -22,6 +22,8 @@ package jgl;
 import java.awt.AWTEvent;
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * GLCanvas is the canvas class of jGL 2.4.
@@ -35,7 +37,7 @@ public class GLCanvas extends Canvas {
   protected GL myGL = new GL();
   protected GLU myGLU = new GLU(myGL);
   protected GLUT myUT = new GLUT(myGL);
-
+  
   public void processEvent(AWTEvent e) {
     myUT.processEvent(e);
     super.processEvent(e);
@@ -54,6 +56,8 @@ public class GLCanvas extends Canvas {
 
   public void paint(Graphics g) {
     myGL.glXSwapBuffers(g, this);
+    
+    firePostPaintEvents(g);
   }
 
   public GL getGL() {
@@ -68,5 +72,30 @@ public class GLCanvas extends Canvas {
     return myUT;
   }
   
+  // ************ LISTEN PAINT METHOD CALLS ************ //
+  
+  public interface PaintListener{
+    public void postPaint(Graphics g);
+  }
+  
+  List<PaintListener> listeners = new ArrayList<>();
+
+  public List<PaintListener> getListeners() {
+    return listeners;
+  }
+
+  public void setListeners(List<PaintListener> listeners) {
+    this.listeners = listeners;
+  }
+  
+  public void addPaintListener(PaintListener listener) {
+    this.listeners.add(listener);
+  }
+  
+  public void firePostPaintEvents(Graphics g) {
+    for(PaintListener listener: listeners) {
+      listener.postPaint(g);
+    }
+  }
   
 }
