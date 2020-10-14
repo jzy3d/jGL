@@ -20,12 +20,19 @@
 package jgl;
 
 import java.applet.Applet;
+import java.awt.Color;
 // import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.awt.image.MemoryImageSource;
+import java.util.ArrayList;
+import java.util.List;
 
 import jgl.context.gl_context;
 import jgl.context.gl_list;
@@ -624,9 +631,10 @@ public class GL {
   protected gl_list List;
   protected Component JavaComponent;
   protected Image JavaImage;
-//    protected MemoryImageSource JavaImageSource;
   protected int StartX = 0;
   protected int StartY = 0;
+  protected List<TextToDraw> textsToDraw = new ArrayList<>();
+
   
   public Image getRenderedImage() {
     return JavaImage;
@@ -1714,17 +1722,119 @@ public class GL {
 
   /** Creates a new {@link MemoryImageSource} based on the current color buffer. 
    * 
-   * This image can later be applied to a {@link Component} using {@link #glXSwapBuffers(Graphics, ImageObserver)}*/
+   * This image can later be applied to a {@link Component} using {@link #glXSwapBuffers(Graphics, ImageObserver)}
+   */
   public void glFlush() {
     if (Context.RenderMode != GL_RENDER) {
       return;
     }
-//	JavaImage = JavaApplet.createImage(new MemoryImageSource
-    JavaImage = JavaComponent.createImage(new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height,
-        Context.ColorBuffer.Buffer, 0, Context.Viewport.Width));
-//	System.out.println ("create Java Image");
-//	JavaImageSource.newPixels();
+
+    // ------------------------------------------
+    // Create an image producer based on 
+    // colorbuffer into which GL draws
+    ImageProducer producer = new MemoryImageSource(
+    		Context.Viewport.Width, 
+    		Context.Viewport.Height,
+            Context.ColorBuffer.Buffer, 
+            0, 
+            Context.Viewport.Width);
+    
+    // Generates an image from the toolkit to use this producer
+    Image colorBuffer = JavaComponent.createImage(producer);
+
+    // ------------------------------------------
+    // Write GL content in a temporary image 
+    // and then to the image returned to Canvas
+    
+    if(HANDLE_TEXT) {
+	    JavaImage = new BufferedImage(colorBuffer.getWidth(null), colorBuffer.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+	    
+	    Graphics2D g2d = (Graphics2D) JavaImage.getGraphics();
+
+	    // Color buffer
+	    g2d.drawImage(colorBuffer, 0, 0, null);
+
+	    // Text
+	    drawText(g2d);	    
+    }
+    
+    // ------------------------------------------
+    // Write GL content to the image returned 
+    // to Canvas
+    
+    else {
+    	JavaImage = colorBuffer;
+    }
   }
+  
+  private static boolean HANDLE_TEXT = true;
+
+  /**
+   * Renders appended text to given {@link Graphics2D} context.
+   * @param g2d
+   */
+  protected void drawText(Graphics2D g2d) {
+	synchronized (textsToDraw) {
+	    for(TextToDraw text: textsToDraw) {
+	    	g2d.setFont(text.font);
+	    	if(text.r>=0) {
+			    g2d.setColor(new Color(text.r, text.g, text.b));		    		
+	    	}
+	    	else {
+			    g2d.setColor(Color.BLACK);		    				    		
+	    	}
+		    g2d.drawString(text.string, text.x, text.y);	    	
+	    }
+	    textsToDraw.clear(); // empty text buffer
+	}
+}
+  
+  /**
+   * To be called by {@link GLUT#glutBitmapString(Font, String, float, float)} to append
+   * text to a list of text to render at {@link GL#glFlush()} step.
+   */
+  protected void appendText(Font font, String string, int x, int y) {
+	  synchronized (textsToDraw) {
+		  textsToDraw.add(new TextToDraw(font, string, x, y));
+	  }
+  }
+
+  /**
+   * To be called by {@link GLUT#glutBitmapString(Font, String, float, float)} to append
+   * text to a list of text to render at {@link GL#glFlush()} step.
+   */
+  protected void appendText(Font font, String string, int x, int y, float r, float g, float b) {
+	  synchronized (textsToDraw) {
+		  textsToDraw.add(new TextToDraw(font, string, x, y, r, g, b));
+	  }
+  }
+
+  class TextToDraw{
+	  Font font;
+	  String string;
+	  int x;
+	  int y;
+	  float r;
+	  float g;
+	  float b;
+	  
+	public TextToDraw(Font font, String string, int x, int y) {
+		this(font, string, x, y, -1, -1, -1);
+	}
+
+	public TextToDraw(Font font, String string, int x, int y, float r, float g, float b) {
+		super();
+		this.font = font;
+		this.string = string;
+		this.x = x;
+		this.y = y;
+		this.r = r;
+		this.g = g;
+		this.b = b;
+	} 
+  }
+  
+
 
   /**
    * Depth Buffer
@@ -6089,8 +6199,9 @@ public class GL {
 //    public void glXSwapBuffers (Graphics g, Applet o) {
   public void glXSwapBuffers(Graphics g, ImageObserver o) {
 //	if (JavaImage != null) g.drawImage (JavaImage, StartX, StartY, o);
+	  
     g.drawImage(JavaImage, StartX, StartY, o);
-
+    
 //	if (Context.RenderMode != GL_RENDER) { return; }
 //	int i, j, k = 0;
 //	for (i = StartY; i < Context.Viewport.Height; i++) {

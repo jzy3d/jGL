@@ -58,7 +58,7 @@ public class GLCanvas extends Canvas {
   public void paint(Graphics g) {
     myGL.glXSwapBuffers(g, this);
     
-    firePostPaintEvents(g);
+    //firePostPaintEvents(g);
   }
 
   // ************ RETRIEVE RENDERING CONTEXT ************ //
@@ -77,7 +77,7 @@ public class GLCanvas extends Canvas {
   
   // ************ LISTEN PAINT METHOD CALLS ************ //
   
-  public interface PaintListener{
+  /*public interface PaintListener{
     public void postPaint(Graphics g);
   }
   
@@ -99,7 +99,7 @@ public class GLCanvas extends Canvas {
     for(PaintListener listener: listeners) {
       listener.postPaint(g);
     }
-  }
+  }*/
   
   // ************ MANUAL REPAINT ************ //
 

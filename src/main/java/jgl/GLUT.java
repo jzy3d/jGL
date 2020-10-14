@@ -22,6 +22,7 @@ package jgl;
 import java.applet.Applet;
 import java.awt.AWTEvent;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
@@ -33,6 +34,7 @@ import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
+
 
 import jgl.glaux.teapot;
 import jgl.glu.GLUquadricObj;
@@ -121,6 +123,96 @@ public class GLUT implements Runnable {
   private glut_menu currentMenu = null;
   private int JavaMenuButton = -1;
   private int keyModifiers = 0;
+  
+  /**
+   * Print string at the specified 2d position.
+   * 
+   * This method is not following exactly the GLUT interface. 
+   * Printing text in OpenGL usually requires such code :
+   * 
+   * <pre><code>
+   * gl.glColor3f(r, g, b);
+   * gl.glRasterPos3f(x, y, z);
+   * glut.glutBitmapString(font, string);
+   * </code></pre>
+   * 
+   * In our case, one need to first perform model-to-screen projection to get
+   * x,y coordinates, and then call glutBitmapString. 
+   * 
+   * @see {@link #glutBitmapString(Font, String, float, float, float, float, float, float) to avoid doing the model-to-screen projection.
+   */
+  public void glutBitmapString(Font font, String string, float x, float y) {
+	  JavaGL.appendText(font, string, (int)x, (int)y);
+  }
+  
+  /**
+   * Print string at the specified 3d position.
+   * 
+   * This method is not following exactly the GLUT interface. 
+   * Printing text in OpenGL usually requires such code :
+   * 
+   * <pre><code>
+   * gl.glColor3f(r, g, b);
+   * gl.glRasterPos3f(x, y, z);
+   * glut.glutBitmapString(int font, string);
+   * </code></pre>
+   * 
+   * Here we provide a convenient function that does all in one pass
+   * <pre><code>
+   * glut.glutBitmapString(java.awt.Font, java.lang.String, x, y, z, r, g, b);
+   * </code></pre>
+   * 
+   * Behind the scene it makes the model-to-screen conversion and then
+   * provide all data to {@link GL#appendText(Font, String, int, int, float, float, float)}
+   * that will handle the text rendering in {@link GL#glFlush()}
+   */
+  public void glutBitmapString(Font font, String string, float x, float y, float z, float r, float g, float b) {
+	  double[] win = modelToScreen(x, y, z);
+	  
+	  double winX = win[0];
+	  double winY = JavaGL.Context.Viewport.Height - win[1];
+	  
+	  
+	  JavaGL.appendText(font, string, (int)winX, (int)winY, r, g, b);
+  }
+  
+  protected double[] modelToScreen(float x, float y, float z) {
+    int viewport[] = getViewPortAsInt();
+
+    double winx[] = new double[1];
+    double winy[] = new double[1];
+    double winz[] = new double[1];
+
+    if (!JavaGLU.gluProject(x, y, z, getModelViewAsDouble(), getProjectionAsDouble(), viewport, winx, winy, winz))
+      System.err.println("GLUT.modelToScreen : Could not retrieve model coordinates in screen for " + x + ", "+ y+ ", "+ z);
+
+    double[] win = new double[3];
+    win[0] = winx[0];
+    win[1] = winy[0];
+    win[2] = winz[0];
+    
+    return win;
+  }
+
+  protected int[] getViewPortAsInt() {
+    int viewport[] = new int[4];
+    JavaGL.glGetIntegerv(GL.GL_VIEWPORT, viewport);
+    return viewport;
+  }
+
+  protected double[] getModelViewAsDouble() {
+    double modelview[] = new double[16];
+    JavaGL.glGetDoublev(GL.GL_MODELVIEW_MATRIX, modelview);
+    return modelview;
+  }
+
+  protected double[] getProjectionAsDouble() {
+    double projection[] = new double[16];
+    JavaGL.glGetDoublev(GL.GL_PROJECTION_MATRIX, projection);
+    return projection;
+  }
+  //</pre>
+  
 
   /** Private Member Functions */
   /*
