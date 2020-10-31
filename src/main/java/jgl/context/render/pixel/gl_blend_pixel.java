@@ -115,7 +115,7 @@ public class gl_blend_pixel extends gl_render_pixel {
     blend_pixel(rst, src, src, dst, CC.ColorBuffer.BlendSrc);
     blend_pixel(rst, dst, src, dst, CC.ColorBuffer.BlendDst);
 
-    gl_render_pixel.debug_color_to_console(color);
+    //gl_render_pixel.debug_color_to_console(color);
     
     CC.ColorBuffer.Buffer[index] = gl_util.RGBtoI(gl_util.CLAMP(rst[0], 0.0f, 1.0f), gl_util.CLAMP(rst[1], 0.0f, 1.0f),
         gl_util.CLAMP(rst[2], 0.0f, 1.0f));

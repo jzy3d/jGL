@@ -127,9 +127,9 @@ public class gl_colorbuffer {
   }
 
   public void clear_buffer(int size) {
-	  System.err.println("gl_colorbuffer.clear_buffer " + size + " pixels");
+	  //System.err.println("gl_colorbuffer.clear_buffer " + size + " pixels");
 	  
-	  gl_render_pixel.debug_color_to_console(IntClearColor);
+	  //gl_render_pixel.debug_color_to_console(IntClearColor);
 	  
     for (int i = 0; i < size; i++) {
       Buffer[i] = IntClearColor;
@@ -328,7 +328,7 @@ public class gl_colorbuffer {
         int color = ((a << 24) | (r << 16) | (g << 8) | b);
         Buffer[Pos++] = color;
         
-        gl_render_pixel.debug_color_to_console(color);
+        //gl_render_pixel.debug_color_to_console(color);
         
         sj++;
       }

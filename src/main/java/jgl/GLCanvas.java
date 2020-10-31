@@ -21,10 +21,9 @@ package jgl;
 
 import java.awt.AWTEvent;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * GLCanvas is the canvas class of jGL 2.4.
@@ -35,87 +34,83 @@ import java.util.List;
 
 public class GLCanvas extends Canvas {
 
-  protected GL myGL = new GL();
-  protected GLU myGLU = new GLU(myGL);
-  protected GLUT myUT = new GLUT(myGL);
-  
-  public void processEvent(AWTEvent e) {
-    myUT.processEvent(e);
-    super.processEvent(e);
-  }
+	protected GL myGL = new GL();
+	protected GLU myGLU = new GLU(myGL);
+	protected GLUT myUT = new GLUT(myGL);
 
-  public void glut_enable_events(long cap, boolean state) {
-    if (state)
-      enableEvents(cap);
-    else
-      disableEvents(cap);
-  }
+	public void processEvent(AWTEvent e) {
+		myUT.processEvent(e);
+		super.processEvent(e);
+	}
 
-  public void update(Graphics g) {
-    paint(g);
-  }
+	public void glut_enable_events(long cap, boolean state) {
+		if (state)
+			enableEvents(cap);
+		else
+			disableEvents(cap);
+	}
 
-  public void paint(Graphics g) {
-    myGL.glXSwapBuffers(g, this);
-    
-    //firePostPaintEvents(g);
-  }
+	public void update(Graphics g) {
+		paint(g);
+	}
 
-  // ************ RETRIEVE RENDERING CONTEXT ************ //
+	public void paint(Graphics g) {
+		//Color backgroundColor = myGL.getClearColorAWT();
+		//g.setColor(backgroundColor);
+		//g.drawRect(0, 0, myGL.getContext().Viewport.Width, myGL.getContext().Viewport.Height);
 
-  public GL getGL() {
-    return myGL;
-  }
+		myGL.glXSwapBuffers(g, this);
 
-  public GLU getGLU() {
-    return myGLU;
-  }
+		// firePostPaintEvents(g);
+	}
 
-  public GLUT getGLUT() {
-    return myUT;
-  }
-  
-  // ************ LISTEN PAINT METHOD CALLS ************ //
-  
-  /*public interface PaintListener{
-    public void postPaint(Graphics g);
-  }
-  
-  List<PaintListener> listeners = new ArrayList<>();
+	// ************ RETRIEVE RENDERING CONTEXT ************ //
 
-  public List<PaintListener> getListeners() {
-    return listeners;
-  }
+	public GL getGL() {
+		return myGL;
+	}
 
-  public void setListeners(List<PaintListener> listeners) {
-    this.listeners = listeners;
-  }
-  
-  public void addPaintListener(PaintListener listener) {
-    this.listeners.add(listener);
-  }
-  
-  public void firePostPaintEvents(Graphics g) {
-    for(PaintListener listener: listeners) {
-      listener.postPaint(g);
-    }
-  }*/
-  
-  // ************ MANUAL REPAINT ************ //
+	public GLU getGLU() {
+		return myGLU;
+	}
 
-  
-  /** 
-   * Can be used to update image if camera has changed position.
-   * 
-   *  FIXME : Warning if this is invoked by a thread external to AWT, 
-   *  maybe this will require to redraw GL 
-   *  while GL is already used by AWT. */
-  public void forceRepaint() {
-    // This makes GLUT invoke the myReshape function
-    processEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_RESIZED));
+	public GLUT getGLUT() {
+		return myUT;
+	}
 
-    // This triggers copy of newly generated picture to the GLCanvas
-    repaint();
-  }
-  
+	// ************ LISTEN PAINT METHOD CALLS ************ //
+
+	/*
+	 * public interface PaintListener{ public void postPaint(Graphics g); }
+	 * 
+	 * List<PaintListener> listeners = new ArrayList<>();
+	 * 
+	 * public List<PaintListener> getListeners() { return listeners; }
+	 * 
+	 * public void setListeners(List<PaintListener> listeners) { this.listeners =
+	 * listeners; }
+	 * 
+	 * public void addPaintListener(PaintListener listener) {
+	 * this.listeners.add(listener); }
+	 * 
+	 * public void firePostPaintEvents(Graphics g) { for(PaintListener listener:
+	 * listeners) { listener.postPaint(g); } }
+	 */
+
+	// ************ MANUAL REPAINT ************ //
+
+	/**
+	 * Can be used to update image if camera has changed position.
+	 * 
+	 * FIXME : Warning if this is invoked by a thread external to AWT, maybe this
+	 * will require to redraw GL while GL is already used by AWT.
+	 */
+	public void forceRepaint() {
+		// This makes GLUT invoke the myReshape function
+		processEvent(new ComponentEvent(this, ComponentEvent.COMPONENT_RESIZED));
+
+		// This triggers copy of newly generated picture to the GLCanvas
+		repaint();
+	}
+
 }

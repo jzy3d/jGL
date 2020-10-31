@@ -58,7 +58,7 @@ public class gl_render_pixel {
 	/** Put a pixel in the Color Buffer */
 	public void put_pixel(int x, int y, int color) {
 		
-		debug_color_to_console(color);
+		//debug_color_to_console(color);
 
 		CC.ColorBuffer.Buffer[x + CC.Viewport.Width * y] = color;
 	}
@@ -68,7 +68,7 @@ public class gl_render_pixel {
 		
 		if (CC.DepthBuffer.Test(z, index)) {
 			
-			debug_color_to_console(color);
+			//debug_color_to_console(color);
 			
 			CC.ColorBuffer.Buffer[index] = color;
 			
@@ -83,7 +83,7 @@ public class gl_render_pixel {
 
 		if (CC.DepthBuffer.Test(z, index)) {
 			
-			debug_color_to_console(color);
+			//debug_color_to_console(color);
 			
 			CC.ColorBuffer.Buffer[index] = color;
 			if (CC.DepthBuffer.Mask)
