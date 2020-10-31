@@ -1105,9 +1105,9 @@ public class GLUT implements Runnable {
     return keyModifiers;
   }
 
-  public GLUT() {
+  /*public GLUT() {
     System.out.println("Please call new GLUT (yourGL)");
-  }
+  }*/
 
   public GLUT(GL myGL) {
     JavaGL = myGL;

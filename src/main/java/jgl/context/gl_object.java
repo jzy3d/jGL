@@ -115,8 +115,6 @@ public abstract class gl_object {
   /** Public Member Functions */
   public void gl_error(int error, String s) {
     
-    
-    
     if (debug) {
       StringBuffer sb = new StringBuffer();
       sb.append("jGL Error (");

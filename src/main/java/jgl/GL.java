@@ -31,8 +31,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.image.MemoryImageSource;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import jgl.context.gl_context;
 import jgl.context.gl_list;
@@ -635,6 +640,9 @@ public class GL {
   protected int StartY = 0;
   protected List<TextToDraw> textsToDraw = new ArrayList<>();
 
+  public gl_context getContext() {
+	  return Context;
+  }
   
   public Image getRenderedImage() {
     return JavaImage;
@@ -1697,9 +1705,9 @@ public class GL {
 
   /** const GLubyte *glGetString (GLenum name) */
   public String glGetString(int name) {
-    String vendor = new String("Robin Bing-Yu Chen");
+    String vendor = new String("Robin Bing-Yu Chen, Martin Pernollet");
     String renderer = new String("jGL");
-    String version = new String("2.4");
+    String version = new String("2.5");
     String extensions = new String("no supported extensions now");
     if (CC.Mode != None) {
       CC.gl_error(GL_INVALID_OPERATION, "glGetString");
@@ -6199,7 +6207,21 @@ public class GL {
 //    public void glXSwapBuffers (Graphics g, Applet o) {
   public void glXSwapBuffers(Graphics g, ImageObserver o) {
 //	if (JavaImage != null) g.drawImage (JavaImage, StartX, StartY, o);
+	
+	  // DEBUG CHART
+	/*if(JavaImage==null)
+	  System.err.println("WARNING : GL.glXSwap has null image");
 	  
+	try {
+		
+		JavaImage.getGraphics().drawString("COUCOU", 200, 200);
+		String debugImg = "target/GL.png";
+		ImageIO.write((RenderedImage) JavaImage, "png", new File(debugImg));
+		System.err.println(debugImg);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}*/
     g.drawImage(JavaImage, StartX, StartY, o);
     
 //	if (Context.RenderMode != GL_RENDER) { return; }

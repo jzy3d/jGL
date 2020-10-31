@@ -1302,9 +1302,9 @@ public class GLU {
     nobj.glu_nurbs_surface(sknot_count, sknot, tknot_count, tknot, s_stride, t_stride, ctlarray, sorder, torder, type);
   }
 
-  public GLU() {
+  /*public GLU() {
     System.out.println("Please call new GLU (yourGL)");
-  }
+  }*/
 
   public GLU(GL myGL) {
     JavaGL = myGL;

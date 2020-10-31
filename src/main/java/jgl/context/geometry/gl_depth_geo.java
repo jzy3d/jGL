@@ -32,7 +32,7 @@ import jgl.context.gl_pointer;
 public class gl_depth_geo extends gl_geometry {
 
   protected void draw_point(float p[], int i) {
-    System.out.println("DRAW POINT");
+    //System.out.println("DRAW POINT");
     CR.pixel.put_pixel((int) (p[0] + (float) 0.5), (int) (p[1] + (float) 0.5), p[2], CC.ColorTransformation());
   }
 

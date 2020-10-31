@@ -112,7 +112,7 @@ public class gl_render {
   }
 
   protected void put_pixel() {
-    pixel.put_pixel(x, y, color);
+	pixel.put_pixel(x, y, color);
   }
 
   protected void put_pixel_by_index() {
@@ -487,7 +487,7 @@ public class gl_render {
        */
       return;
     }
-
+    
     facing = facing ^ (area > 0) ^ (CC.Raster.FrontFace == GL.GL_CW);
 
     if (CC.Raster.CullFace) {
