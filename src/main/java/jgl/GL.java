@@ -1761,6 +1761,9 @@ public class GL {
 
 	    // Color buffer
 	    g2d.drawImage(colorBuffer, 0, 0, null);
+	    
+		  debugWriteImageTo("target/GL-colorBuffer.png");
+
 
 	    // Text
 	    drawText(g2d);	    
@@ -6202,6 +6205,18 @@ public class GL {
     Context.gl_initialize_context();
     return GL_TRUE;
   }
+  
+  public void debugWriteImageTo(String file) {
+	  try {
+			
+			//JavaImage.getGraphics().drawString("COUCOU", 200, 200);
+			//String debugImg = "target/GL.png";
+			ImageIO.write((RenderedImage) JavaImage, "png", new File(file));
+			System.err.println("GL write image buffer to : " + file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+  }
 
   /** void glXSwapBuffers (Display *dpy, GLXDrawable drawable) */
 //    public void glXSwapBuffers (Graphics g, Applet o) {
@@ -6212,16 +6227,8 @@ public class GL {
 	/*if(JavaImage==null)
 	  System.err.println("WARNING : GL.glXSwap has null image");
 	  
-	try {
-		
-		JavaImage.getGraphics().drawString("COUCOU", 200, 200);
-		String debugImg = "target/GL.png";
-		ImageIO.write((RenderedImage) JavaImage, "png", new File(debugImg));
-		System.err.println(debugImg);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}*/
+	*/
+	  
     g.drawImage(JavaImage, StartX, StartY, o);
     
 //	if (Context.RenderMode != GL_RENDER) { return; }

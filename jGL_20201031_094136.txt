@@ -1,0 +1,6 @@
+WARNING - 09:41:37: Creating types 
+WARNING - 09:41:37: Initializing types
+WARNING - 09:41:59: Generic post-process : Creating usages and associations
+WARNING - 09:41:59: Generic post-process : Creating activities
+WARNING - 09:41:59: Saving uml file /resource/jGL/jGL.uml
+WARNING - 09:41:59: Uml file /resource/jGL/jGL.uml saved

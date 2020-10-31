@@ -2,6 +2,14 @@
 
 A pure Java implementation of OpenGL, still [online](http://graphics.im.ntu.edu.tw/~robin/jGL/) with [example gallery](http://graphics.im.ntu.edu.tw/~robin/jGL/Example/index.html) and an [LGPL licence](http://www.gnu.org/licenses/lgpl-3.0.html)
 
+# Javadoc and UML documentation
+Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/downloads#yDoc). 
+Configuration file in doc/yfiles.uml.options.jgl.linux
+Run ```javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jgl.linux```
+
+
+
+# Original readme file
 
 
 

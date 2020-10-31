@@ -21,6 +21,7 @@ package jgl.context.attrib;
 
 import jgl.GL;
 import jgl.context.gl_context;
+import jgl.context.render.pixel.gl_render_pixel;
 // import jgl.context.gl_list_item;
 // import jgl.context.gl_util;
 
@@ -47,12 +48,11 @@ public class gl_colorbuffer {
    * boolean BlueMask = true; public boolean AlphaMask = true;
    */
   public int ColorMask = 0xffffffff;
-//    public boolean ColorMask = true;
 
   /** GL_COLOR_CLEAR_VALUE: Color-buffer clear value (RGBA mode) */
   public float ClearColor[] = { 0, 0, 0, 0 };
 
-  /* The clear color in int for Java format */
+  /** The clear color in int for Java format */
   public int IntClearColor = 0xff000000;
 
   /** GL_INDEX_CLEAR_VALUE: Color-buffer clear value (color-index mode) */
@@ -85,7 +85,7 @@ public class gl_colorbuffer {
   /** GL_DITHER: Dithering enabled */
   public boolean DitherEnable = true;
 
-  /* the really color buffer */
+  /** The really color buffer */
   public int Buffer[];
 
   public void set_clear_color(float r, float g, float b, float a) {
@@ -93,8 +93,10 @@ public class gl_colorbuffer {
     ClearColor[1] = g;
     ClearColor[2] = b;
     ClearColor[3] = a;
-    IntClearColor = 0xff000000 | ((int) (r * (float) 255.0)) << 16 | ((int) (g * (float) 255.0)) << 8
-        | ((int) (b * (float) 255.0));
+    IntClearColor = 0xff000000  // ALPHA IS FORCED TO 255 !
+    		| ((int) (r * (float) 255.0)) << 16 
+    		| ((int) (g * (float) 255.0)) << 8
+    		| ((int) (b * (float) 255.0));
   }
 
   public void set_color_mask(boolean r, boolean g, boolean b, boolean a) {
@@ -125,6 +127,10 @@ public class gl_colorbuffer {
   }
 
   public void clear_buffer(int size) {
+	  System.err.println("gl_colorbuffer.clear_buffer " + size + " pixels");
+	  
+	  gl_render_pixel.debug_color_to_console(IntClearColor);
+	  
     for (int i = 0; i < size; i++) {
       Buffer[i] = IntClearColor;
     }
@@ -318,7 +324,12 @@ public class gl_colorbuffer {
          * CC.Pixel.Green.apply_bias_scale (g); b = CC.Pixel.Blue.apply_bias_scale (b);
          * a = CC.Pixel.Alpha.apply_bias_scale (a); }
          */
-        Buffer[Pos++] = ((a << 24) | (r << 16) | (g << 8) | b);
+        
+        int color = ((a << 24) | (r << 16) | (g << 8) | b);
+        Buffer[Pos++] = color;
+        
+        gl_render_pixel.debug_color_to_console(color);
+        
         sj++;
       }
       si++;

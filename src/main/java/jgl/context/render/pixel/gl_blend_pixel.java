@@ -115,6 +115,8 @@ public class gl_blend_pixel extends gl_render_pixel {
     blend_pixel(rst, src, src, dst, CC.ColorBuffer.BlendSrc);
     blend_pixel(rst, dst, src, dst, CC.ColorBuffer.BlendDst);
 
+    gl_render_pixel.debug_color_to_console(color);
+    
     CC.ColorBuffer.Buffer[index] = gl_util.RGBtoI(gl_util.CLAMP(rst[0], 0.0f, 1.0f), gl_util.CLAMP(rst[1], 0.0f, 1.0f),
         gl_util.CLAMP(rst[2], 0.0f, 1.0f));
   }
@@ -127,9 +129,9 @@ public class gl_blend_pixel extends gl_render_pixel {
   /** Put a pixel in the Color Buffer, if the pixel is near View Point */
   public void put_pixel_by_index(int index, float z, int color) {
     if (CC.DepthBuffer.Test(z, index)) {
+    	
       put_pixel_by_index(index, color);
-//	    CC.ColorBuffer.Buffer [index] = color;
-//	    CC.DepthBuffer.Buffer [index] = z;
+      
       if (CC.DepthBuffer.Mask)
         CC.DepthBuffer.Buffer[index] = z;
     }
@@ -138,10 +140,11 @@ public class gl_blend_pixel extends gl_render_pixel {
   /** Put a pixel in the Color Buffer, if the pixel is near View Point */
   public void put_pixel(int x, int y, float z, int color) {
     int index = x + CC.Viewport.Width * y;
+    
     if (CC.DepthBuffer.Test(z, index)) {
+    	
       put_pixel_by_index(index, color);
-//	    CC.ColorBuffer.Buffer [index] = color;
-//	    CC.DepthBuffer.Buffer [index] = z;
+
       if (CC.DepthBuffer.Mask)
         CC.DepthBuffer.Buffer[index] = z;
     }

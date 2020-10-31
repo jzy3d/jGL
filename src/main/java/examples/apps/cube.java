@@ -15,7 +15,7 @@ import jgl.GLCanvas;
 public class cube extends GLCanvas {
 
   private void myinit() {
-    myGL.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    myGL.glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
     myGL.glShadeModel(GL.GL_FLAT);
   }
 
