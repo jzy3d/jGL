@@ -3,10 +3,12 @@
 A pure Java implementation of OpenGL, still [online](http://graphics.im.ntu.edu.tw/~robin/jGL/) with [example gallery](http://graphics.im.ntu.edu.tw/~robin/jGL/Example/index.html) and an [LGPL licence](http://www.gnu.org/licenses/lgpl-3.0.html)
 
 # Javadoc and UML documentation
-Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/downloads#yDoc). 
+Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/downloads#yDoc).
 Configuration file in doc/yfiles.uml.options.jgl.linux
 Run ```javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jgl.linux```
 
+<img src="doc/jGL-Framework-Overview.png"/>
+<a href="https://lucid.app/lucidchart/78ec260b-d2d1-430d-a363-a95089dae86d/edit?page=rUUJ25QAVSeR#?folder_id=home&browser=icon">Edit schema</a>
 
 
 # Original readme file
@@ -19,7 +21,7 @@ Run ```javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jg
 
                                Red Book Examples
 
- 
+
 INTRODUCTION
 ============
 
@@ -47,7 +49,7 @@ To compile all the example source codes, please edit Make-config as necessary
 to make sure that the path of Java2 SDK in the local file system are set
 right. Then, just make the codes by
 
-  make. 
+  make.
 
 It will make all the example source codes, and generate Java Plug-in HTML
 files.

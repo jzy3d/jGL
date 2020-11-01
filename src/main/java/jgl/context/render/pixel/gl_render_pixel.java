@@ -32,6 +32,11 @@ import jgl.context.gl_util;
 public class gl_render_pixel {
 
 	protected gl_context CC;
+	
+	public gl_render_pixel(gl_context cc) {
+		CC = cc;
+	}
+
 
 	public static void debug_color_to_console(int color) {
 		float r = gl_util.ItoR(color);
@@ -45,7 +50,7 @@ public class gl_render_pixel {
 
 	/** Put a pixel in the Color Buffer */
 	public void put_pixel_by_index(int index, int color) {
-		debug_color_to_console(color);
+		//debug_color_to_console(color);
 
 		CC.ColorBuffer.Buffer[index] = color;
 //	if (CC.ColorBuffer.ColorMask != 0xffffffff) {
@@ -266,9 +271,4 @@ public class gl_render_pixel {
 	/* just for stipple_line */
 	public void init(int dx, int dy) {
 	}
-
-	public gl_render_pixel(gl_context cc) {
-		CC = cc;
-	}
-
 }

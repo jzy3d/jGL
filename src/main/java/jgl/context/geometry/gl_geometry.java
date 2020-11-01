@@ -159,6 +159,7 @@ public class gl_geometry {
 
   public void gl_begin() {
     VertexIndex = 0;
+    
     switch (CC.Mode) {
     case GL.GL_POINTS:
       VertexSize = 1;
@@ -178,11 +179,16 @@ public class gl_geometry {
       VertexSize = 4;
       break;
     case GL.GL_POLYGON:
-      VertexSize = 5;
-      break;
+        VertexSize = 5;
+        break;
     }
     VertexArray = new float[VertexSize][4];
+    
+    countBegin++;
   }
+  
+  public int countBegin = 0;
+  
 
   public void gl_end() {
     switch (CC.Mode) {

@@ -34,15 +34,18 @@ import jgl.context.gl_vertex;
 
 public class gl_smooth_geo extends gl_geometry {
 
-  /** Data Members */
-  protected int VertexColor[];
+	protected int VertexColor[];
 
-  protected void draw_point(float p[], int i) {
-    CR.pixel.put_pixel((int) (p[0] + (float) 0.5), (int) (p[1] + (float) 0.5), VertexColor[i]);
-  }
+	public gl_smooth_geo(gl_context cc, gl_pointer cr) {
+		super(cc, cr);
+	}
 
-  protected gl_vertex[] pack_line(int i, int j) {
-    gl_vertex temp[] = super.pack_line(i, j);
+	protected void draw_point(float p[], int i) {
+		CR.pixel.put_pixel((int) (p[0] + (float) 0.5), (int) (p[1] + (float) 0.5), VertexColor[i]);
+	}
+
+	protected gl_vertex[] pack_line(int i, int j) {
+		gl_vertex temp[] = super.pack_line(i, j);
 //	temp [0].Color = new int [4];
 //	temp [1].Color = new int [4];
 //	temp [0].Color [0] = (VertexColor [i] & 0x00ff0000) >> 16;
@@ -51,55 +54,50 @@ public class gl_smooth_geo extends gl_geometry {
 //	temp [1].Color [0] = (VertexColor [j] & 0x00ff0000) >> 16;
 //	temp [1].Color [1] = (VertexColor [j] & 0x0000ff00) >> 8;
 //	temp [1].Color [2] =  VertexColor [j] & 0x000000ff;
-    temp[0].Color = gl_util.ItoRGBA(VertexColor[i]);
-    temp[1].Color = gl_util.ItoRGBA(VertexColor[j]);
-    return temp;
-  }
+		temp[0].Color = gl_util.ItoRGBA(VertexColor[i]);
+		temp[1].Color = gl_util.ItoRGBA(VertexColor[j]);
+		return temp;
+	}
 
-  private void draw_line(gl_vertex v[]) {
-    CR.render.draw_line(v[0], v[1]);
-  }
+	private void draw_line(gl_vertex v[]) {
+		CR.render.draw_line(v[0], v[1]);
+	}
 
-  protected gl_polygon pack_polygon(int size) {
-    gl_polygon tpoly = super.pack_polygon(size);
-    for (int i = 0; i < size; i++) {
+	protected gl_polygon pack_polygon(int size) {
+		gl_polygon tpoly = super.pack_polygon(size);
+		for (int i = 0; i < size; i++) {
 //	    tpoly.Polygon [i].Color = new int [3];
 //	    tpoly.Polygon [i].Color [0] = (VertexColor [i] & 0x00ff0000) >> 16;
 //	    tpoly.Polygon [i].Color [1] = (VertexColor [i] & 0x0000ff00) >> 8;
 //	    tpoly.Polygon [i].Color [2] =  VertexColor [i] & 0x000000ff;
-      tpoly.Polygon[i].Color = gl_util.ItoRGBA(VertexColor[i]);
-    }
-    return tpoly;
-  }
+			tpoly.Polygon[i].Color = gl_util.ItoRGBA(VertexColor[i]);
+		}
+		return tpoly;
+	}
 
-  private void draw_polygon(gl_polygon p) {
-    CR.render.draw_polygon(p);
-  }
+	private void draw_polygon(gl_polygon p) {
+		CR.render.draw_polygon(p);
+	}
 
-  protected void set_vertex(int i) {
-    super.set_vertex(i);
-    VertexColor[i] = CC.ColorTransformation();
-  }
+	protected void set_vertex(int i) {
+		super.set_vertex(i);
+		VertexColor[i] = CC.ColorTransformation();
+	}
 
-  protected void copy_vertex(int s, int d) {
-    super.copy_vertex(s, d);
-    VertexColor[d] = VertexColor[s];
-  }
+	protected void copy_vertex(int s, int d) {
+		super.copy_vertex(s, d);
+		VertexColor[d] = VertexColor[s];
+	}
 
-  protected void extend_array() {
-    super.extend_array();
-    int tempColor[] = new int[VertexSize];
-    System.arraycopy(VertexColor, 0, tempColor, 0, VertexSize - 5);
-    VertexColor = tempColor;
-  }
+	protected void extend_array() {
+		super.extend_array();
+		int tempColor[] = new int[VertexSize];
+		System.arraycopy(VertexColor, 0, tempColor, 0, VertexSize - 5);
+		VertexColor = tempColor;
+	}
 
-  public void gl_begin() {
-    super.gl_begin();
-    VertexColor = new int[VertexSize];
-  }
-
-  public gl_smooth_geo(gl_context cc, gl_pointer cr) {
-    super(cc, cr);
-  }
-
+	public void gl_begin() {
+		super.gl_begin();
+		VertexColor = new int[VertexSize];
+	}
 }

@@ -45,40 +45,6 @@ import jgl.context.attrib.texture.gl_texture_obj;
 
 public class gl_context extends gl_object {
 
-  /** Constant of Context of JavaGL */
-//    public static final int   MAX_MODELVIEW_STACK_DEPTH	= 32;
-//    public static final int   MAX_PROJECTION_STACK_DEPTH	= 32;
-//    public static final int   MAX_TEXTURE_STACK_DEPTH		= 8;
-//    public static final int   MAX_ATTRIB_STACK_DEPTH		= 16;
-//    public static final int   MAX_DISPLAYLISTS		= 2000;
-//    public static final int   MAX_LIST_NESTING		= 64;
-  public static final int MAX_LIGHTS = 8;
-  public static final int MAX_CLIP_PLANES = 6;
-  public static final int MAX_TEXTURE_LEVELS = 10;
-  public static final int MAX_TEXTURE_SIZE = 1 << (MAX_TEXTURE_LEVELS - 1);
-  public static final int MAX_3D_TEXTURE_LEVELS = 8;
-  public static final int MAX_3D_TEXTURE_SIZE = 1 << (MAX_3D_TEXTURE_LEVELS - 1);
-//    public static final int   MAX_TEXTURE_SIZE		= 512;
-//    public static final int   MAX_PIXEL_MAP_TABLE		= 256;
-//    public static final int   COLOR_BITS			= 8;
-//    public static final int   MAX_AUX_BUFFERS			= 0;
-  public static final int MAX_EVAL_ORDER = 30;
-  public static final int MAX_NAME_STACK_DEPTH = 64;
-  public static final float MIN_POINT_SIZE = 1.0f;
-  public static final float MAX_POINT_SIZE = 10.0f;
-  public static final float POINT_SIZE_GRANULARITY = 0.1f;
-  public static final float MIN_LINE_SIZE = 1.0f;
-  public static final float MAX_LINE_SIZE = 10.0f;
-  public static final float LINE_WIDTH_GRANULARITY = 0.1f;
-//    public static final int   MAX_WIDTH			= 1280;
-//    public static final int   MAX_HEIGHT			= 1024;
-//    public static final int   ACCUM_BITS			= 16;
-//    public static final int   DEPTH_BITS			= 16;
-//    public static final int   MAX_DEPTH			= 0xffff;
-//    public static final float MAX_DEPTH			= 65535.0f;
-//    public static final int   STENCIL_BITS			= 8;
-//    public static final float SUB_PIX_SCALE			= 256.0f;
-//    public static final int   SUB_PIX_SHIFT			= 8;
 
   /** GL_MODELVIEW_MATRIX: Modelview matrix stack */
   public float ModelViewMatrix[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
@@ -1527,5 +1493,47 @@ public class gl_context extends gl_object {
       gl_error(GL.GL_STACK_UNDERFLOW, "glPopName");
     }
   }
+  
+	/* ********************************************************************** */
+  
+	/* **************************** CONSTANTS ******************************* */
+
+	/* ********************************************************************** */
+  
+
+  /** Constant of Context of JavaGL */
+//    public static final int   MAX_MODELVIEW_STACK_DEPTH	= 32;
+//    public static final int   MAX_PROJECTION_STACK_DEPTH	= 32;
+//    public static final int   MAX_TEXTURE_STACK_DEPTH		= 8;
+//    public static final int   MAX_ATTRIB_STACK_DEPTH		= 16;
+//    public static final int   MAX_DISPLAYLISTS		= 2000;
+//    public static final int   MAX_LIST_NESTING		= 64;
+  public static final int MAX_LIGHTS = 8;
+  public static final int MAX_CLIP_PLANES = 6;
+  public static final int MAX_TEXTURE_LEVELS = 10;
+  public static final int MAX_TEXTURE_SIZE = 1 << (MAX_TEXTURE_LEVELS - 1);
+  public static final int MAX_3D_TEXTURE_LEVELS = 8;
+  public static final int MAX_3D_TEXTURE_SIZE = 1 << (MAX_3D_TEXTURE_LEVELS - 1);
+//    public static final int   MAX_TEXTURE_SIZE		= 512;
+//    public static final int   MAX_PIXEL_MAP_TABLE		= 256;
+//    public static final int   COLOR_BITS			= 8;
+//    public static final int   MAX_AUX_BUFFERS			= 0;
+  public static final int MAX_EVAL_ORDER = 30;
+  public static final int MAX_NAME_STACK_DEPTH = 64;
+  public static final float MIN_POINT_SIZE = 1.0f;
+  public static final float MAX_POINT_SIZE = 10.0f;
+  public static final float POINT_SIZE_GRANULARITY = 0.1f;
+  public static final float MIN_LINE_SIZE = 1.0f;
+  public static final float MAX_LINE_SIZE = 10.0f;
+  public static final float LINE_WIDTH_GRANULARITY = 0.1f;
+//    public static final int   MAX_WIDTH			= 1280;
+//    public static final int   MAX_HEIGHT			= 1024;
+//    public static final int   ACCUM_BITS			= 16;
+//    public static final int   DEPTH_BITS			= 16;
+//    public static final int   MAX_DEPTH			= 0xffff;
+//    public static final float MAX_DEPTH			= 65535.0f;
+//    public static final int   STENCIL_BITS			= 8;
+//    public static final float SUB_PIX_SCALE			= 256.0f;
+//    public static final int   SUB_PIX_SHIFT			= 8;
 
 }
