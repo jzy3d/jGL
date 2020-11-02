@@ -21,7 +21,6 @@ package jgl;
 
 import java.awt.AWTEvent;
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 
@@ -33,11 +32,23 @@ import java.awt.event.ComponentEvent;
  */
 
 public class GLCanvas extends Canvas {
+	private static final long serialVersionUID = 6622637113292111062L;
 
 	protected GL myGL = new GL();
 	protected GLU myGLU = new GLU(myGL);
 	protected GLUT myUT = new GLUT(myGL);
 
+	/**
+	 * This override let {@link GLUT#processEvent(AWTEvent)} be informed of
+	 * {@link AWTEvent} traversing this canvas (mouse, keyboard, resize).
+	 * 
+	 * One should register {@link GLUT#glutDisplayFunc(String)} to register a
+	 * display callback, {@link GLUT#glutMotionFunc(String)} to register a mouse
+	 * motion callback, etc.
+	 * 
+	 * NB : This relies on the fact the GLUT already invoked
+	 * {@link this#glut_enable_events}.
+	 */
 	public void processEvent(AWTEvent e) {
 		myUT.processEvent(e);
 		super.processEvent(e);
@@ -55,10 +66,6 @@ public class GLCanvas extends Canvas {
 	}
 
 	public void paint(Graphics g) {
-		//Color backgroundColor = myGL.getClearColorAWT();
-		//g.setColor(backgroundColor);
-		//g.drawRect(0, 0, myGL.getContext().Viewport.Width, myGL.getContext().Viewport.Height);
-
 		myGL.glXSwapBuffers(g, this);
 
 		// firePostPaintEvents(g);
