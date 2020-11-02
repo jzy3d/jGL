@@ -7,9 +7,17 @@ Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/down
 Configuration file in doc/yfiles.uml.options.jgl.linux
 Run ```javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jgl.linux```
 
-<img src="doc/jGL-Framework-Overview.png"/>
+## GL
+
+GL is a java object that implements OpenGL 1 specification
+<img src="doc/jGL-GL.png"/>
 <a href="https://lucid.app/lucidchart/78ec260b-d2d1-430d-a363-a95089dae86d/edit?page=rUUJ25QAVSeR#?folder_id=home&browser=icon">Edit schema</a>
 
+## GLUT
+
+GLUT is a java object that implements OpenGL 1 specification
+<img src="doc/jGL-GLUT.png"/>
+<a href="https://lucid.app/lucidchart/78ec260b-d2d1-430d-a363-a95089dae86d/edit?page=L~uKE4~S_W9d#?folder_id=home&browser=icon">Edit schema</a>
 
 # Original readme file
 
