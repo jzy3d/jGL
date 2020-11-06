@@ -104,7 +104,7 @@ public class GLUT implements Runnable {
    * @see {@link #glutBitmapString(Font, String, float, float, float, float, float, float) to avoid doing the model-to-screen projection.
    */
   public void glutBitmapString(Font font, String string, float x, float y) {
-	  JavaGL.appendText(font, string, (int)x, (int)y);
+	  JavaGL.appendTextToDraw(font, string, (int)x, (int)y);
   }
   
   /**
@@ -125,7 +125,7 @@ public class GLUT implements Runnable {
    * </code></pre>
    * 
    * Behind the scene it makes the model-to-screen conversion and then
-   * provide all data to {@link GL#appendText(Font, String, int, int, float, float, float)}
+   * provide all data to {@link GL#appendTextToDraw(Font, String, int, int, float, float, float)}
    * that will handle the text rendering in {@link GL#glFlush()}
    */
   public void glutBitmapString(Font font, String string, float x, float y, float z, float r, float g, float b) {
@@ -135,7 +135,7 @@ public class GLUT implements Runnable {
 	  double winY = JavaGL.Context.Viewport.Height - win[1];
 	  
 	  
-	  JavaGL.appendText(font, string, (int)winX, (int)winY, r, g, b);
+	  JavaGL.appendTextToDraw(font, string, (int)winX, (int)winY, r, g, b);
   }
   
   protected double[] modelToScreen(float x, float y, float z) {
@@ -876,8 +876,7 @@ public class GLUT implements Runnable {
    */
   public void processMouseMotionEvent(MouseEvent e) {
     if(motionMethod==null) {
-    		System.err.println("Motion method is undefined, please call glut.glutMotionFunc(\"doMotion\")");
-    	
+      //System.err.println("Motion method is undefined, please call glut.glutMotionFunc(\"doMotion\")");
       return;
     }
   

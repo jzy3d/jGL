@@ -112,34 +112,15 @@ public class GL {
 
 	/* ******************** PROVIDE IMAGE ********************/
 
-	/** void glXSwapBuffers (Display *dpy, GLXDrawable drawable) */
-//    public void glXSwapBuffers (Graphics g, Applet o) {
+	/** 
+	 * Draws the image buffer that was built by {@link GL#glFlush()} with the caller {@link Graphics} context
+	 * 
+	 * OpenGL equivalent:
+	 * 
+	 * <code>void glXSwapBuffers (Display *dpy, GLXDrawable drawable)</code>
+	 */
 	public void glXSwapBuffers(Graphics g, ImageObserver o) {
-//	if (JavaImage != null) g.drawImage (JavaImage, StartX, StartY, o);
-
-		// DEBUG CHART
-		/*
-		 * if(JavaImage==null)
-		 * System.err.println("WARNING : GL.glXSwap has null image");
-		 * 
-		 */
-
 		g.drawImage(JavaImage, StartX, StartY, o);
-
-//	if (Context.RenderMode != GL_RENDER) { return; }
-//	int i, j, k = 0;
-//	for (i = StartY; i < Context.Viewport.Height; i++) {
-//	    for (j = StartX; j < Context.Viewport.Width; j++) {
-//		g.setColor(new Color (Context.ColorBuffer.Buffer[k++]));
-//		g.drawLine(j, i, j, i);
-//	    }
-//	}
-
-		// add for Java2D
-		// Graphics2D g2 = (Graphics2D) g;
-		// g2.drawImage (JavaImage, 0, 0, o);
-
-//	System.out.println ("call draw image");
 	}
 
 	public void glXSwapBuffers(Graphics g, Applet o) {
@@ -184,7 +165,7 @@ public class GL {
 
 		// Generates an image from the toolkit to use this producer
 		Image colorBuffer = JavaComponent.createImage(producer);
-
+		
 		// ------------------------------------------
 		// Write GL content in a temporary image
 		// and then to the image returned to Canvas
@@ -217,7 +198,7 @@ public class GL {
 		}
 	}
 
-	private void hackClearColorWithG2DfillRect(Graphics2D g2d) {
+	protected void hackClearColorWithG2DfillRect(Graphics2D g2d) {
 		Color backgroundColor = getClearColorAWT();
 		g2d.setColor(backgroundColor);
 		g2d.fillRect(0, 0, Context.Viewport.Width, Context.Viewport.Height);
@@ -227,10 +208,8 @@ public class GL {
 		float r = gl_util.ItoR(color);
 		float g = gl_util.ItoG(color);
 		float b = gl_util.ItoB(color);
-		float a = gl_util.ItoA(color);
-
-		// return new Color((int)r,(int)g,(int)b);//,(int)a);
-		return new Color(r / 255, g / 255, b / 255);// ,(int)a);
+		//float a = gl_util.ItoA(color);
+		return new Color(r / 255, g / 255, b / 255);
 	}
 
 	public Color getClearColorAWT() {
@@ -266,7 +245,7 @@ public class GL {
 	 * To be called by {@link GLUT#glutBitmapString(Font, String, float, float)} to
 	 * append text to a list of text to render at {@link GL#glFlush()} step.
 	 */
-	protected void appendText(Font font, String string, int x, int y) {
+	public void appendTextToDraw(Font font, String string, int x, int y) {
 		synchronized (textsToDraw) {
 			textsToDraw.add(new TextToDraw(font, string, x, y));
 		}
@@ -276,7 +255,7 @@ public class GL {
 	 * To be called by {@link GLUT#glutBitmapString(Font, String, float, float)} to
 	 * append text to a list of text to render at {@link GL#glFlush()} step.
 	 */
-	protected void appendText(Font font, String string, int x, int y, float r, float g, float b) {
+	public void appendTextToDraw(Font font, String string, int x, int y, float r, float g, float b) {
 		synchronized (textsToDraw) {
 			textsToDraw.add(new TextToDraw(font, string, x, y, r, g, b));
 		}
