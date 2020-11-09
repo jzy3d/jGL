@@ -19,6 +19,21 @@ GLUT is a java object that implements OpenGL 1 specification
 <img src="doc/jGL-GLUT.png"/>
 <a href="https://lucid.app/lucidchart/78ec260b-d2d1-430d-a363-a95089dae86d/edit?page=L~uKE4~S_W9d#?folder_id=home&browser=icon">Edit schema</a>
 
+
+## Crucial thing to know when trying to paint often
+
+AWT repaint of all components are asynchronous. You do not decide when the component will draw. 
+Calling Component.repaint() too often might not lead  to a refreshing screen. Calling repaint() sends events to AWT 
+asking to draw when it can. If too many events are sent, the AWT event queue will coalesce all events into the last
+one (or the one that requires painting the biggest part of the screen).
+
+Refreshing the screen should be handled carefully. For example you can not simply update the screen as soon as the 
+mouse drags or move if building and drawing the 3d image takes to much time.
+
+Despite not knowing exactly what is too much, I observed that having a rendering time above 40ms will lead to no 
+rendering at all until the Paint event  
+
+
 # Original readme file
 
 

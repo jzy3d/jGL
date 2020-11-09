@@ -21,9 +21,6 @@ package jgl.context.attrib;
 
 import jgl.GL;
 import jgl.context.gl_context;
-import jgl.context.render.pixel.gl_render_pixel;
-// import jgl.context.gl_list_item;
-// import jgl.context.gl_util;
 
 /**
  * gl_colorbuffer is the color buffer class of jGL 2.4.

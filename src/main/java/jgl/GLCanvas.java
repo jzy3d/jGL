@@ -66,16 +66,18 @@ public class GLCanvas extends Canvas {
 	}
 
 	public void paint(Graphics g) {
-		System.out.println("want to draw : " + kPaint);
 		myGL.glXSwapBuffers(g, this);
-		g.drawString("GLCanvas.paint(Graphics g) : " + kPaint, 10, 12*6);
 
-//System.out.println("SWAPPED" );
-		// firePostPaintEvents(g);
+		postRenderString(g, "GLCanvas.paint(Graphics g) : " + kPaint, 10, 12*4);
 		
 		kPaint++;
 	}
+	
 	int kPaint = 0;
+	
+	void postRenderString(Graphics g, String message, int x, int y){
+		g.drawString(message, x, y);		
+	}
 
 	// ************ RETRIEVE RENDERING CONTEXT ************ //
 
