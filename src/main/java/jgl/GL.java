@@ -62,6 +62,7 @@ public class GL {
 	protected int StartX = 0;
 	protected int StartY = 0;
 	protected List<TextToDraw> textsToDraw = new ArrayList<>();
+	protected List<ImageToDraw> imageToDraw = new ArrayList<>();
 
 	public GL() {
 	}
@@ -183,7 +184,10 @@ public class GL {
 			g2d.drawImage(colorBuffer, 0, 0, null);
 
 			// Text
-			drawText(g2d);
+			drawTexts(g2d);
+			
+			// Images
+			drawImages(g2d);
 			
 			//debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
 
@@ -216,6 +220,38 @@ public class GL {
 		int clearColor = getContext().ColorBuffer.IntClearColor;
 		return glIntToColor(clearColor);
 	}
+	
+	/* ********************** IMAGE OVERLAY WITH AWT ************************/
+	
+	class ImageToDraw {
+		public int x;
+		public int y;
+		public BufferedImage image;
+		
+		public ImageToDraw(int x, int y, BufferedImage image) {
+			super();
+			this.x = x;
+			this.y = y;
+			this.image = image;
+		}
+	}
+	
+	public void appendImageToDraw(BufferedImage image, int x, int y) {
+		synchronized (imageToDraw) {
+			imageToDraw.add(new ImageToDraw(x, y, image));
+		}
+	}
+	
+	protected void drawImages(Graphics2D g2d) {
+		synchronized (imageToDraw) {
+			for (ImageToDraw img : imageToDraw) {
+				g2d.drawImage(img.image, img.x, img.y, null);
+			}
+			imageToDraw.clear(); // empty image buffer
+		}
+	}
+	
+	
 
 	/* ********************** TEXT MANAGEMENT WITH AWT ************************/
 
@@ -226,7 +262,7 @@ public class GL {
 	 * 
 	 * @param g2d
 	 */
-	protected void drawText(Graphics2D g2d) {
+	protected void drawTexts(Graphics2D g2d) {
 		synchronized (textsToDraw) {
 			for (TextToDraw text : textsToDraw) {
 				g2d.setFont(text.font);
