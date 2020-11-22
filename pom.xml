@@ -38,6 +38,8 @@
 				</configuration>
 			</plugin>
 
+			<!-- Configure compiler -->
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -48,13 +50,62 @@
 				</configuration>
 			</plugin>
 
-			<!-- RELEASE PLUGIN TO HELP CREATE RELEASE BRANCHES -->
+			<!-- Help performing release (creating git branches and bumping MVN versions) -->
+
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.3</version>
 			</plugin>
+
+			<!-- Generate an additional Jar containing Source Code -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Generate an additional Jar containing Javadoc -->
+
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9</version>
+					<executions>
+							<execution>
+									<id>attach-javadocs</id>
+									<goals>
+											<goal>jar</goal>
+									</goals>
+									<configuration>
+										<failOnError>false</failOnError>
+									</configuration>
+							</execution>
+					</executions>
+			</plugin>
 		</plugins>
+
+
+		<!-- Extension to perform FTP upload of artifact -->
+
+		<extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+          <artifactId>wagon-ftp</artifactId>
+          <version>1.0-beta-6</version>
+      </extension>
+    </extensions>
 	</build>
+
+	<!-- Repositories where to get dependencies -->
 
 	<repositories>
 		<repository>
@@ -68,4 +119,36 @@
 			<url>http://maven.jzy3d.org/releases/</url>
 		</repository>
 	</repositories>
+
+	<!-- Repositories where to deploy this artifact -->
+
+	<distributionManagement>
+		<repository>
+			<id>jzy3d-ftp</id>
+			<name>Jzy3d Maven Folder</name>
+			<url>ftp://ftp.cluster013.ovh.net/maven/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>jzy3d-ftp</id>
+			<name>Jzy3d Maven Folder SNAPSHOTS</name>
+			<url>ftp://ftp.cluster013.ovh.net/maven/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
+	<!-- Disable Javadoc Linter -->
+
+	<profiles>
+			<profile>
+					<id>disable-java8-doclint</id>
+					<activation>
+							<!--<jdk>[1.8,)</jdk>-->
+							<activeByDefault>true</activeByDefault>
+					</activation>
+					<properties>
+							<additionalparam>-Xdoclint:none</additionalparam>
+					</properties>
+			</profile>
+	</profiles>
+
 </project>

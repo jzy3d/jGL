@@ -57,12 +57,13 @@ public class GL {
 	protected gl_object CC = (gl_object) Context;
 	protected gl_list List;
 	
-	protected Component JavaComponent;
-	protected Image JavaImage;
+	protected Component canvas;
+	protected Image glImage;
 	protected int StartX = 0;
 	protected int StartY = 0;
 	protected List<TextToDraw> textsToDraw = new ArrayList<>();
 	protected List<ImageToDraw> imageToDraw = new ArrayList<>();
+	protected int shiftHorizontally = 0;
 
 	public GL() {
 	}
@@ -76,7 +77,7 @@ public class GL {
 	}
 
 	public Image getRenderedImage() {
-		return JavaImage;
+		return glImage;
 	}
 
 	/** the following functions are only for developpers **/
@@ -86,17 +87,17 @@ public class GL {
 	}
 
 	public Image glJGetImage(MemoryImageSource imagesource) {
-		return JavaComponent.createImage(imagesource);
+		return canvas.createImage(imagesource);
 	}
 
 	public Component glJGetComponent() {
-		return JavaComponent;
+		return canvas;
 	}
 
 	/* ******************** DEBUG ********************/
 
 	public void debugWriteImageTo(String file) {
-		RenderedImage image = (RenderedImage) JavaImage;
+		RenderedImage image = (RenderedImage) glImage;
 		debugWriteImageTo(file, image);
 	}
 
@@ -121,29 +122,12 @@ public class GL {
 	 * <code>void glXSwapBuffers (Display *dpy, GLXDrawable drawable)</code>
 	 */
 	public void glXSwapBuffers(Graphics g, ImageObserver o) {
-		g.drawImage(JavaImage, StartX, StartY, o);
+		g.drawImage(glImage, StartX, StartY, o);
 	}
 
 	public void glXSwapBuffers(Graphics g, Applet o) {
 		glXSwapBuffers(g, (ImageObserver) o);
 	}
-
-	/*<pre>
-	public void glJViewport(int x, int y, int width, int height) {
-		glViewport(x, y, width, height);
-		JavaImageSource = new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height,
-				Context.ColorBuffer.Buffer, 0, Context.Viewport.Width);
-		JavaImageSource.setAnimated(true);
-		JavaImageSource.setFullBufferUpdates(true);
-		JavaImage = JavaComponent.createImage(JavaImageSource);
-	}
-
-	public void glJFlush() {
-		if (Context.RenderMode != GL_RENDER) {
-			return;
-		}
-		JavaImageSource.newPixels();
-	}</pre>*/
 
 	/* ******************** FLUSH IN IMAGE ********************/
 
@@ -164,42 +148,37 @@ public class GL {
 		ImageProducer producer = new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height,
 				Context.ColorBuffer.Buffer, 0, Context.Viewport.Width);
 
+		//((MemoryImageSource)producer).setAnimated(true);
+		//((MemoryImageSource)producer).setFullBufferUpdates(true);
+		
 		// Generates an image from the toolkit to use this producer
-		Image colorBuffer = JavaComponent.createImage(producer);
+		Image jGLColorBuffer = canvas.createImage(producer);
+
+
 		
 		// ------------------------------------------
 		// Write GL content in a temporary image
 		// and then to the image returned to Canvas
 
-		if (HANDLE_TEXT) {
-			JavaImage = new BufferedImage(colorBuffer.getWidth(null), colorBuffer.getHeight(null),
-					BufferedImage.TYPE_INT_ARGB);
+		glImage = new BufferedImage(jGLColorBuffer.getWidth(null), jGLColorBuffer.getHeight(null),
+				BufferedImage.TYPE_INT_ARGB);
 
-			Graphics2D g2d = (Graphics2D) JavaImage.getGraphics();
+		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
 
-			// Hack background
-			hackClearColorWithG2DfillRect(g2d);
+		// Hack background
+		hackClearColorWithG2DfillRect(g2d);
 
-			// Color buffer
-			g2d.drawImage(colorBuffer, 0, 0, null);
+		// Color buffer
+		g2d.drawImage(jGLColorBuffer, shiftHorizontally, 0, null);
 
-			// Text
-			drawTexts(g2d);
-			
-			// Images
-			drawImages(g2d);
-			
-			//debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
+		// Text
+		drawTexts(g2d);
+		
+		// Images
+		drawImages(g2d);
+		
+		//debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
 
-		}
-
-		// ------------------------------------------
-		// Write GL content to the image returned
-		// to Canvas
-
-		else {
-			JavaImage = colorBuffer;
-		}
 	}
 
 	protected void hackClearColorWithG2DfillRect(Graphics2D g2d) {
@@ -220,6 +199,11 @@ public class GL {
 		int clearColor = getContext().ColorBuffer.IntClearColor;
 		return glIntToColor(clearColor);
 	}
+	
+	public void setShiftHoritontally(int shift) {
+		shiftHorizontally = shift;
+	}
+
 	
 	/* ********************** IMAGE OVERLAY WITH AWT ************************/
 	
@@ -255,7 +239,6 @@ public class GL {
 
 	/* ********************** TEXT MANAGEMENT WITH AWT ************************/
 
-	private static boolean HANDLE_TEXT = true;
 
 	/**
 	 * Renders appended text to given {@link Graphics2D} context.
@@ -271,7 +254,7 @@ public class GL {
 				} else {
 					g2d.setColor(Color.BLACK);
 				}
-				g2d.drawString(text.string, text.x, text.y);
+				g2d.drawString(text.string, text.x+shiftHorizontally, text.y);
 			}
 			textsToDraw.clear(); // empty text buffer
 		}
@@ -5754,7 +5737,7 @@ public class GL {
 //    public boolean glXMakeCurrent (Applet o, int x, int y) {
 	public boolean glXMakeCurrent(Component o, int x, int y) {
 //	JavaApplet = o;
-		JavaComponent = o;
+		canvas = o;
 		StartX = x;
 		StartY = y;
 //	Context.gl_initialize_context (o.getSize().width, o.getSize().height);
@@ -6347,6 +6330,7 @@ public class GL {
 	public static final int GLX_BAD_CONTEXT = 5;
 	public static final int GLX_BAD_VALUE = 6;
 	public static final int GLX_BAD_ENUM = 7;
+
 
 	
 }

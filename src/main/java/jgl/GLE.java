@@ -47,8 +47,8 @@ public class GLE extends GL {
     myGL.Context = Context;
     myGL.CC = CC;
     List = myGL.List;
-    JavaComponent = myGL.JavaComponent;
-    JavaImage = myGL.JavaImage;
+    canvas = myGL.canvas;
+    glImage = myGL.glImage;
     StartX = myGL.StartX;
     StartY = myGL.StartY;
   }
