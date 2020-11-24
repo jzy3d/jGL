@@ -109,6 +109,14 @@ GL.glFlush()
 * Can not "mix" two viewports standing next to each other. The last rendered viewport erase the preceding. If the second viewport does not render ON TOP of the first one, the first one is replace by the clear (?) color.
 * glRasterPos is not implemented in jGL, which is annoying for positioning a 2d image that should be rendered with glDrawPixels. See GL.appendImageToDraw
 
+### Following bug appear when integrated in Jzy3d, but not in standalone prototypes
+
+* glClear does not properly clear image background. Instead the background remains translucent AND multiple successive images overlap. Adressed by painting background with AWT fillRect
+* Alpha blending not working properly. When integrating in Jzy3d, Elements with Alpha=0 appear as black instead of fully translucent. 
+
+
+
+
 # Original readme file
 
 

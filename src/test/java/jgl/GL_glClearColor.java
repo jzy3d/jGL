@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import jgl.context.gl_util;
 
-public class GLTest {
+public class GL_glClearColor {
 	@Test
 	public void whenClearColor_thenBufferIsResetToThisColor_ButAlphaRemains255() {
 		// Given openGL
@@ -16,8 +16,8 @@ public class GLTest {
 	    float R = 1.0f;
 	    float G = 0.5f;
 	    float B = 0.0f;
-	    float A_query = 0.5f; // semi-alpha not registered by jGL
-	    float A_expect = 1.0f; // which store a full alpha
+	    float A_query = 0.75f; // semi-alpha not registered by jGL
+	    float A_expect = 0.75f;//1.0f; // which store a full alpha
 	    // see gl_colorbuffer.set_clear_color(...)
 	    
 		// ----------------------------------------------------

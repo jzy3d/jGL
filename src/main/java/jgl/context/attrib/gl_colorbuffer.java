@@ -90,7 +90,8 @@ public class gl_colorbuffer {
     ClearColor[1] = g;
     ClearColor[2] = b;
     ClearColor[3] = a;
-    IntClearColor = 0xff000000  // ALPHA IS FORCED TO 255 !
+    IntClearColor = //0xff000000  // ALPHA IS FORCED TO 255 !
+    		 ((int) (a * (float) 255.0)) << 24
     		| ((int) (r * (float) 255.0)) << 16 
     		| ((int) (g * (float) 255.0)) << 8
     		| ((int) (b * (float) 255.0));

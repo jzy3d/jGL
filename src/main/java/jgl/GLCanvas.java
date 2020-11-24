@@ -68,7 +68,7 @@ public class GLCanvas extends Canvas {
 	public void paint(Graphics g) {
 		myGL.glXSwapBuffers(g, this);
 
-		postRenderString(g, "GLCanvas.paint(Graphics g) : " + kPaint, 10, 12*4);
+		//postRenderString(g, "GLCanvas.paint(Graphics g) : " + kPaint, 10, 12*4);
 		
 		kPaint++;
 	}

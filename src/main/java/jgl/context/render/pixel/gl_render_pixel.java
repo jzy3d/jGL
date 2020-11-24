@@ -44,7 +44,8 @@ public class gl_render_pixel {
 		float b = gl_util.ItoB(color);
 		float a = gl_util.ItoA(color);
 
-		if(a==0)
+		//if(r==0 && g==0 && b==0 && a!=255)
+			if(a!=255)
 			System.err.println("gl_render_pixel.debug r:" + r + " g:" + g + " b:" + b + " a:" + a);
 	}
 
@@ -95,6 +96,8 @@ public class gl_render_pixel {
 				CC.DepthBuffer.Buffer[index] = z;
 		}
 	}
+	
+	/* ********************************************************************** */
 
 	/** Convert the color array to call real put_pixel */
 	public void put_pixel_by_index(int index, int c[]) {

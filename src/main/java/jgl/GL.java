@@ -64,6 +64,7 @@ public class GL {
 	protected List<TextToDraw> textsToDraw = new ArrayList<>();
 	protected List<ImageToDraw> imageToDraw = new ArrayList<>();
 	protected int shiftHorizontally = 0;
+	protected boolean clearBackgroundWithG2d = true;
 
 	public GL() {
 	}
@@ -141,6 +142,11 @@ public class GL {
 		if (Context.RenderMode != GL_RENDER) {
 			return;
 		}
+		
+		// DEBUG
+		
+		checkColorBuffer();
+		
 
 		// ------------------------------------------
 		// Create an image producer based on
@@ -153,8 +159,8 @@ public class GL {
 		
 		// Generates an image from the toolkit to use this producer
 		Image jGLColorBuffer = canvas.createImage(producer);
-
-
+		
+		
 		
 		// ------------------------------------------
 		// Write GL content in a temporary image
@@ -166,7 +172,8 @@ public class GL {
 		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
 
 		// Hack background
-		hackClearColorWithG2DfillRect(g2d);
+		if(clearBackgroundWithG2d)
+			hackClearColorWithG2DfillRect(g2d);
 
 		// Color buffer
 		g2d.drawImage(jGLColorBuffer, shiftHorizontally, 0, null);
@@ -179,6 +186,36 @@ public class GL {
 		
 		//debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
 
+	}
+
+	private void checkColorBuffer() {
+		int a0 = 0;
+		int a255 = 0;
+		int black = 0;
+		int notBlack = 0;
+		
+		for (int i = 0; i < Context.ColorBuffer.Buffer.length; i++) {
+			int color = Context.ColorBuffer.Buffer[i];
+			
+			int r = gl_util.ItoR(color);
+			int g = gl_util.ItoG(color);
+			int b = gl_util.ItoB(color);
+			int a = gl_util.ItoA(color);
+			
+			// CHECK NUMBER OF BLACK PIXEL == ALPHA PIXELS
+			
+			if((r+g+b)==0)
+				black++;
+			if((r+g+b)>0)
+				notBlack++;
+			
+			if(a==0)
+				a0++;
+			if(a==255)
+				a255++;
+		}
+		
+		System.out.println("glFlush() #translucent = " + a0 + " #opaque = " + a255 + " #black=" + black + " #notBlack=" + notBlack);
 	}
 
 	protected void hackClearColorWithG2DfillRect(Graphics2D g2d) {
