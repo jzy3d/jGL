@@ -20,6 +20,9 @@ public class GL_glClearColor {
 	    float A_expect = 0.75f;//1.0f; // which store a full alpha
 	    // see gl_colorbuffer.set_clear_color(...)
 	    
+	    // FIXED ALPHA
+	    
+	    
 		// ----------------------------------------------------
 	    // When defining the clear color
 		gl.glClearColor(R, G, B, A_query);
