@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import jgl.context.gl_util;
 
-public class GL_glClearColor {
+public class TestGL_glClearColor {
 	@Test
 	public void whenClearColor_thenBufferIsResetToThisColor_ButAlphaRemains255() {
 		// Given openGL

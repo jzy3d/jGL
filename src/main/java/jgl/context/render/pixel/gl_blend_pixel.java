@@ -25,6 +25,9 @@ import jgl.context.gl_util;
 
 /**
  * gl_blend_pixel is the pixel blending class of jGL 2.4.
+ * 
+ * It overrides gl_render_pixel to have all {@link gl_render_pixel#put_pixel(int, int, int)} methods 
+ * will apply blending first.
  *
  * @version 0.1, 20 Nov. 2006
  * @author Robin Bing-Yu Chen
@@ -117,8 +120,22 @@ public class gl_blend_pixel extends gl_render_pixel {
 
     //gl_render_pixel.debug_color_to_console(color);
     
-    CC.ColorBuffer.Buffer[index] = gl_util.RGBtoI(gl_util.CLAMP(rst[0], 0.0f, 1.0f), gl_util.CLAMP(rst[1], 0.0f, 1.0f),
-        gl_util.CLAMP(rst[2], 0.0f, 1.0f));
+        
+    // The initial 2.4 release used to compute alpha as follow, without updating the alpha channel of
+    // the output pixel, which led to complete dark pixel when input alpha are 0.
+    //
+    // So we changed the pixel setting to also write output alpha to the color buffer.
+    // 
+    CC.ColorBuffer.Buffer[index] = gl_util.RGBAtoI(
+    		gl_util.CLAMP(rst[0], 0.0f, 1.0f), 
+    		gl_util.CLAMP(rst[1], 0.0f, 1.0f),
+            gl_util.CLAMP(rst[2], 0.0f, 1.0f),
+            gl_util.CLAMP(rst[3], 0.0f, 1.0f));
+
+    // 2.4 code, which is proved to be erroneous with test GL_renderingAlpha
+    //CC.ColorBuffer.Buffer[index] = gl_util.RGBtoI(gl_util.CLAMP(rst[0], 0.0f, 1.0f), gl_util.CLAMP(rst[1], 0.0f, 1.0f),
+    //    gl_util.CLAMP(rst[2], 0.0f, 1.0f));
+
   }
 
   /** Put a pixel in the Color Buffer */

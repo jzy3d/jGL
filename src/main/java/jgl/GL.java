@@ -145,7 +145,7 @@ public class GL {
 		
 		// DEBUG
 		
-		checkColorBuffer();
+		//checkColorBuffer();
 		
 
 		// ------------------------------------------
