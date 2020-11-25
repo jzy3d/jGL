@@ -6,16 +6,14 @@ import jgl.context.gl_context;
 import jgl.context.gl_util;
 import junit.framework.Assert;
 
-public class TestGL_renderingAlpha {
-	int WIDTH = 100;
-	int HEIGHT = 100;
+public class TestGL_polygonOffsetFill {
+	int WIDTH = 500;
+	int HEIGHT = 500;
 
 	@Test
-	public void whenAlphaIsZero_ThenPixelShouldBeColoredWithBackground() {
+	public void whenInvokePolygon_ThenTwoTrianglesAreDrawn_BUT_Visible_WhiteDiagonal_IfNonOpaque() {
 		
-		// Change this to non 0 to visualize square in output image. 
-		// Keep to 0 to have a relevant test!!!
-		float ALPHA = 0f; 
+		float ALPHA = 0.95f; 
 		
 		// ----------------------------------------------------
 		// Given openGL
@@ -57,6 +55,9 @@ public class TestGL_renderingAlpha {
 
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_FILL);
 		gl.glBegin(GL.GL_POLYGON);
+		
+		//gl.glPolygonMode(frontOrBack, fill);
+		
 		gl.glColor4f(1, 1, 0, ALPHA); // create translucent polygon with non opaque alpha
 		gl.glVertex3f(0.1f, 0.1f, 0); // draw a polygon on the Z=0 plane
 		gl.glVertex3f(0.9f, 0.1f, 0);

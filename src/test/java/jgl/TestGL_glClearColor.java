@@ -7,7 +7,7 @@ import jgl.context.gl_util;
 
 public class TestGL_glClearColor {
 	@Test
-	public void whenClearColor_thenBufferIsResetToThisColor_ButAlphaRemains255() {
+	public void whenClearColor_thenBufferIsResetToThisColor() {
 		// Given openGL
 		GL gl = new GL();
 
@@ -55,34 +55,4 @@ public class TestGL_glClearColor {
 		Assert.assertEquals((int)(B*255), gl_util.ItoB(colorBuffer[0]));
 		Assert.assertEquals((int)(A_expect*255), gl_util.ItoA(colorBuffer[0]));
 	}
-	
-	
-	/*@Test
-	public void color_buffer() {
-		GL gl = new GL();
-
-	    gl_colorbuffer b = gl.getContext().ColorBuffer;
-
-	    b.set_clear_color(0, 0, 0, 1);
-	    System.out.println("ColorBuffer internal color (black) " + b.IntClearColor);
-
-	    b.set_clear_color(0, 0, 1, 1);
-	    System.out.println("ColorBuffer internal color (blue)  " + b.IntClearColor);
-
-	    b.set_clear_color(0, 1, 0, 1);
-	    System.out.println("ColorBuffer internal color (green) " + b.IntClearColor);
-
-	    b.set_clear_color(1, 0, 0, 1);
-	    System.out.println("ColorBuffer internal color (red)   " + b.IntClearColor);
-
-	    b.set_clear_color(1, 0, 1, 1);
-	    System.out.println("ColorBuffer internal color         " + b.IntClearColor);
-
-	    b.set_clear_color(1, 1, 0, 1);
-	    System.out.println("ColorBuffer internal color         " + b.IntClearColor);
-
-	    b.set_clear_color(1, 1, 1, 1);
-	    System.out.println("ColorBuffer internal color (white) " + b.IntClearColor);
-	}*/
-
 }

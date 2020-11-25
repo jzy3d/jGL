@@ -124,7 +124,7 @@ public class gl_blend_pixel extends gl_render_pixel {
     // The initial 2.4 release used to compute alpha as follow, without updating the alpha channel of
     // the output pixel, which led to complete dark pixel when input alpha are 0.
     //
-    // So we changed the pixel setting to also write output alpha to the color buffer.
+    // So we changed the pixel setting to also write output alpha to the color buffer as of 2.5.
     // 
     CC.ColorBuffer.Buffer[index] = gl_util.RGBAtoI(
     		gl_util.CLAMP(rst[0], 0.0f, 1.0f), 
