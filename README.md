@@ -2,10 +2,46 @@
 
 A pure Java implementation of OpenGL, still [online](http://graphics.im.ntu.edu.tw/~robin/jGL/) with [example gallery](http://graphics.im.ntu.edu.tw/~robin/jGL/Example/index.html) and an [LGPL licence](http://www.gnu.org/licenses/lgpl-3.0.html)
 
-# Javadoc and UML documentation
-Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/downloads#yDoc).
-Configuration file in doc/yfiles.uml.options.jgl.linux
-Run ```javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jgl.linux```
+
+
+# History
+
+[jGL](http://www.cmlab.csie.ntu.edu.tw/~robin/jGL/) was created by Robin Bing-Yu Chen in 1996 and has been maintained up to 2006. 
+It is a pure java implementation of OpenGL 1, hence performing 3d rendering with CPU instead of GPU. 
+Some papers about jGL published by Robin have been added to the `doc/papers` folder which clarify all his work.
+It comes with [lot of OpenGL Red Book examples](http://www.cmlab.csie.ntu.edu.tw/~robin/jGL/Example-app/index.html) proving how well
+this OpenGL implementation works.
+
+In 2020, CPU are much more faster than in 2006 and experiments have showned that one can get very decent rendering 
+performance for simple 3D scenes showing surface or scatter point charts. Despite not exhaustive at all, we were able 
+to have the following performance on a MacBook Pro (Retina 15 pouces, début 2013), 2,7 GHz Intel Core i7, RAM 16 Go 1600 MHz DDR3
+- A 60x60 polygon 3D surface in a 500x500 pixels frame is rendered in ~30ms. 
+- A 60x60 polygon 3D surface in a 1440x800 pixel frame is rendered in ~45ms
+- A 50.000 points 3D scatter in a 500x500 pixels frame is rendered in ~10ms.
+- A 500.000 points 3D scatter in a 500x500 pixels frame is rendered in ~90ms.
+
+This performance is far from competing with native rendering performance as offered by the JOGL framework. 
+We however were sometime facing situations we call "the native hell" where very specific combination 
+of OS, JVM & GPU versions triggers [JVM warning and crashes](https://github.com/jzy3d/jzy3d-api/issues/128).
+
+This led to integrate jGL in [Jzy3D](http://www.jzy3d.org/) as a fallback rendering backend. This goal in mind allowed to improve the 
+framework which is now in version 2.5. In addition to adding features, this was an opportunity to add 
+[test cases to jGL](https://github.com/jzy3d/jGL/tree/master/src/test/java/jgl) to 
+truly debug and understand how the color buffer changes according to various GL configurations. 
+
+Despite a strong motivation for enhancing Jzy3D, we kept jGL in a distinct repository to let anyone work with it without
+depending on Jzy3D.
+
+Appart of being an interesting alternative for simple 3D charts rendering, jGL is an excellent school for understanding how 
+OpenGL works inside, 
+as the source code is well organized and readable. 
+The later Architecture section will help anyone willing to dive in the library code.
+ 
+# Architecture
+
+This section provides insights about jGL main class architecture. The goal of these schema is to help a developer understand 
+which software block handle which part of the OpenGL specification.
+
 
 ## GL
 
@@ -20,7 +56,7 @@ GLUT is a java object that implements OpenGL 1 specification
 <a href="https://lucid.app/lucidchart/78ec260b-d2d1-430d-a363-a95089dae86d/edit?page=L~uKE4~S_W9d#?folder_id=home&browser=icon">Edit schema</a>
 
 
-## Crucial thing to know when trying to paint often
+## Important thing to know when trying to paint often
 
 AWT repaint of all components are asynchronous. You do not decide when the component will draw.
 Calling Component.repaint() too often might not lead  to a refreshing screen. Calling repaint() sends events to AWT
@@ -34,7 +70,7 @@ Despite not knowing exactly what is too much, I observed that having a rendering
 rendering at all until the Paint event  
 
 
-## Features added to jGL since 2.5
+# Features added to jGL since 2.5
 
 ### Error management
 
@@ -115,85 +151,19 @@ GL.glFlush()
 * Alpha blending not working properly. When integrating in Jzy3d, Elements with Alpha=0 appear as black instead of fully translucent. 
 
 
+# Javadoc and UML documentation
+Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/downloads#yDoc).
+Configuration file in doc/yfiles.uml.options.jgl.linux
+Run ```javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jgl.linux```
 
 
-# Original readme file
+ 
+# Features
 
+|Name          |Tested |Integrated in Jzy3D|Version| 
+----------------------------------------------------
+|Alpha blending|Yes    |Yes                |2.5    | 
+|Text          |Yes    |Yes                |2.5    |
+|Lightning     |No     |No                 |2.4    | 
+ 
 
-
-                      jGL 3D Graphics Library for Java 2.4
-
-                   Copyright (C) 1996-2002 Robin Bing-Yu Chen
-
-                               Red Book Examples
-
-
-INTRODUCTION
-============
-
-These examples are all in the OpenGL Programming Guide (the red book),
-published by the Addison-Wesley Professional; ISBN 0-201-60458-2.
-
-
-HOW TO COMPILE THE EXAMPLE SOURCE CODES
-=======================================
-
-Before compiling the source codes, please make sure that Sun Java2 SDK has been
-installed in the machine and acceptable. Since jGL has been developed on Java2
-platform, Sun Java2 SDK, Standard Edition is recommended, and the official web
-site is:
-
-  http://java.sun.com/j2se/
-
-Before making the example source codes, don't forget to download jgl.jar, the
-pre-compiled byte-code jar-ball. The newest version will be at
-
-  http://nis-lab.is.s.u-tokyo.ac.jp/~robin/jGL/pub/jgl.jar or
-  http://www.cmlab.csie.ntu.edu.tw/~robin/jGL/pub/jgl.jar
-
-To compile all the example source codes, please edit Make-config as necessary
-to make sure that the path of Java2 SDK in the local file system are set
-right. Then, just make the codes by
-
-  make.
-
-It will make all the example source codes, and generate Java Plug-in HTML
-files.
-
-
-HOW TO COMPILE THE SOURCE CODES ON MICROSOFT WINDOWS SYSTEM
-===========================================================
-
-Please edit make.bat to make sure that the path of Java2 SDK in the local file
-system are set right. Then, just make the codes by
-
-  make.
-
-It will make all the example source codes, and generate Java Plug-in HTML
-files.
-
-
-RUN THE EXAMPLES
-================
-
-To run the examples, please edit the booktest script (or booktest.bat) file to
-make sure that the path of Java is correct. Don't forget to put the jgl.jar in
-the same directory as these examples. Then, type
-
-  booktest hello (for example)
-
-
-OTHER INFORMATIONS
-==================
-
-If you have any problem, please mail to
-  robin@is.s.u-tokyo.ac.jp or
-  robin@csie.ntu.edu.tw
-
-If you want to get the newest information, please refer to
-  Http://nis-lab.is.s.u-tokyo.ac.jp/~robin/jGL or
-  Http://www.cmlab.csie.ntu.edu.tw/~robin/jGL
-
-
-------------------------------------------------------------------------
-Nov. 25, 2002 by Robin Bing-Yu Chen at NIS-Lab......
