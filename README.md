@@ -82,6 +82,34 @@ mouse drags or move if building and drawing the 3d image takes to much time.
 Despite not knowing exactly what is too much, I observed that having a rendering time above 40ms will lead to no
 rendering at all until the Paint event  
 
+# Maven Repository
+
+You should add this to your pom file dependencies node:
+
+```
+<dependency>
+    <groupId>org.jzy3d</groupId>
+    <artifactId>jGL</artifactId>
+    <version>2.5</version>
+</dependency>
+```
+
+Maven artifacts are stored there (you should add this to your pom file root):
+
+```
+<repositories>
+    <repository>
+        <id>jzy3d-snapshots</id>
+        <name>Jzy3d Snapshots</name>
+        <url>http://maven.jzy3d.org/snapshots/</url>
+    </repository>
+    <repository>
+        <id>jzy3d-releases</id>
+        <name>Jzy3d Releases</name>
+        <url>http://maven.jzy3d.org/releases/</url>
+    </repository>
+</repositories>
+```
 
 # Features added to jGL since 2.5
 
