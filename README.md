@@ -10,10 +10,12 @@ A pure Java implementation of OpenGL, still [online](http://graphics.im.ntu.edu.
 It is a pure java implementation of OpenGL 1, hence performing 3d rendering with CPU instead of GPU. 
 Some papers about jGL published by Robin have been added to the `doc/papers` folder which clarify all his work.
 It comes with [lot of OpenGL Red Book examples](http://www.cmlab.csie.ntu.edu.tw/~robin/jGL/Example-app/index.html) proving how well
-this OpenGL implementation works.
+this OpenGL implementation works. The examples are released as [AWT applications](https://github.com/jzy3d/jGL/tree/master/src/main/java/examples/apps)
+and [Applets](https://github.com/jzy3d/jGL/tree/master/src/main/java/examples/applets).
+
 
 In 2020, CPU are much more faster than in 2006 and experiments have showned that one can get very decent rendering 
-performance for simple 3D scenes showing surface or scatter point charts. Despite not exhaustive at all, we were able 
+performance for simple 3D scenes showing surface or scatter point charts. Despite not exhaustive at all, I was able 
 to have the following performance on a MacBook Pro (Retina 15 pouces, début 2013), 2,7 GHz Intel Core i7, RAM 16 Go 1600 MHz DDR3
 - A 60x60 polygon 3D surface in a 500x500 pixels frame is rendered in ~30ms. 
 - A 60x60 polygon 3D surface in a 1440x800 pixel frame is rendered in ~45ms
@@ -21,7 +23,7 @@ to have the following performance on a MacBook Pro (Retina 15 pouces, début 20
 - A 500.000 points 3D scatter in a 500x500 pixels frame is rendered in ~90ms.
 
 This performance is far from competing with native rendering performance as offered by the JOGL framework. 
-We however were sometime facing situations we call "the native hell" where very specific combination 
+I however faced situations I call "the native hell" where very specific combination 
 of OS, JVM & GPU versions triggers [JVM warning and crashes](https://github.com/jzy3d/jzy3d-api/issues/128).
 
 This led to integrate jGL in [Jzy3D](http://www.jzy3d.org/) as a fallback rendering backend. This goal in mind allowed to improve the 
@@ -29,13 +31,13 @@ framework which is now in version 2.5. In addition to adding features, this was 
 [test cases to jGL](https://github.com/jzy3d/jGL/tree/master/src/test/java/jgl) to 
 truly debug and understand how the color buffer changes according to various GL configurations. 
 
-Despite a strong motivation for enhancing Jzy3D, we kept jGL in a distinct repository to let anyone work with it without
+Despite a strong motivation for enhancing Jzy3D, I kept jGL in a distinct repository to let anyone work with it without
 depending on Jzy3D.
 
 Appart of being an interesting alternative for simple 3D charts rendering, jGL is an excellent school for understanding how 
-OpenGL works inside, 
-as the source code is well organized and readable. 
-The later Architecture section will help anyone willing to dive in the library code.
+OpenGL works inside, as the source code is well organized and readable. 
+
+The Architecture section will help anyone willing to dive in the library code.
  
 # Architecture
 
@@ -45,13 +47,24 @@ which software block handle which part of the OpenGL specification.
 
 ## GL
 
-GL is a java object that implements OpenGL 1 specification
+GL is a java object that implements OpenGL 1 specification.
+
+The beginner 3D developer should understand the very basic of a 3D rendering pipeline
+* Defining 3D geometries in the model view matrix.
+* Performing a 2D projection with the projection matrix, possibly applying alpha blending, lightning, etc.
+* Mapping the 2D projection to a viewport, in other word drawing to an image of given size on the screen.
+
+The below schema illustrate which classes and datamodel element handle which part of the above simplified workflow. 
+
 <img src="doc/jGL-GL.png"/>
 <a href="https://lucid.app/lucidchart/78ec260b-d2d1-430d-a363-a95089dae86d/edit?page=rUUJ25QAVSeR#?folder_id=home&browser=icon">Edit schema</a>
 
 ## GLUT
 
-GLUT is a java object that implements OpenGL 1 specification
+GLUT is a java object that implements OpenGL 1 specification.
+
+GLUT helps wiring mouse and keyboard to the display loop of a Canvas.
+
 <img src="doc/jGL-GLUT.png"/>
 <a href="https://lucid.app/lucidchart/78ec260b-d2d1-430d-a363-a95089dae86d/edit?page=L~uKE4~S_W9d#?folder_id=home&browser=icon">Edit schema</a>
 
