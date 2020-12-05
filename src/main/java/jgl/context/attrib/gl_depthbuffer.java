@@ -77,7 +77,7 @@ public class gl_depthbuffer {
   }
 
   public void clear_buffer(int size) {
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < Math.min(size, Buffer.length); i++) {
       Buffer[i] = Clear;
     }
   }
