@@ -264,7 +264,7 @@ public class gl_context extends gl_object {
   }
 
   public void gl_enable(int cap, boolean state) {
-    int i;
+    //int i;
     switch (cap) {
     case GL.GL_ALPHA_TEST:
       ColorBuffer.AlphaEnable = state;

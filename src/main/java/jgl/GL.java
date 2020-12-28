@@ -175,11 +175,15 @@ public class GL {
 		if(clearBackgroundWithG2d)
 			hackClearColorWithG2DfillRect(g2d);
 
+
+		// Text that should appear behind the scene's polygons
+		drawTexts(g2d);
+
 		// Color buffer
 		g2d.drawImage(jGLColorBuffer, shiftHorizontally, 0, null);
 
-		// Text
-		drawTexts(g2d);
+		// Text that should appear on top of the scene's polygons
+		// ...
 		
 		// Images
 		drawImages(g2d);
