@@ -179,14 +179,17 @@ public class GL {
 		// Text that should appear behind the scene's polygons
 		drawTexts(g2d);
 
+		// Images that should appear behind the scene's polygons
+		drawImages(g2d);
+
 		// Color buffer
 		g2d.drawImage(jGLColorBuffer, shiftHorizontally, 0, null);
 
 		// Text that should appear on top of the scene's polygons
 		// ...
 		
-		// Images
-		drawImages(g2d);
+		// Images that should appear on top of the scene's polygons
+		// ... drawImages(g2d);
 		
 		//debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
 
@@ -260,10 +263,15 @@ public class GL {
 			this.image = image;
 		}
 	}
+
+	public void appendImageToDraw(BufferedImage image) {
+		appendImageToDraw(image, 0, 0);
+	}
 	
 	public void appendImageToDraw(BufferedImage image, int x, int y) {
 		synchronized (imageToDraw) {
 			imageToDraw.add(new ImageToDraw(x, y, image));
+			//System.out.println(imageToDraw.size() + " images to draw");
 		}
 	}
 	
