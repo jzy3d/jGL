@@ -180,7 +180,8 @@ public class GL {
 		drawTexts(g2d);
 
 		// Images that should appear behind the scene's polygons
-		drawImages(g2d);
+		//drawImagesAndClearBuffer(g2d);
+		drawImages(g2d, ImageLayer.BACKGROUND);
 
 		// Color buffer
 		g2d.drawImage(jGLColorBuffer, shiftHorizontally, 0, null);
@@ -189,7 +190,8 @@ public class GL {
 		// ...
 		
 		// Images that should appear on top of the scene's polygons
-		// ... drawImages(g2d);
+		drawImages(g2d, ImageLayer.FOREGROUND);
+		clearImagesBuffer();
 		
 		//debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
 
@@ -251,31 +253,40 @@ public class GL {
 	
 	/* ********************** IMAGE OVERLAY WITH AWT ************************/
 	
+	public enum ImageLayer{FOREGROUND, BACKGROUND}
+
 	class ImageToDraw {
 		public int x;
 		public int y;
 		public BufferedImage image;
+		public ImageLayer layer;
 		
-		public ImageToDraw(int x, int y, BufferedImage image) {
+		public ImageToDraw(int x, int y, BufferedImage image, ImageLayer layer) {
 			super();
 			this.x = x;
 			this.y = y;
 			this.image = image;
+			this.layer = layer;
 		}
 	}
 
 	public void appendImageToDraw(BufferedImage image) {
 		appendImageToDraw(image, 0, 0);
 	}
-	
+
 	public void appendImageToDraw(BufferedImage image, int x, int y) {
+		appendImageToDraw(image, x, y, ImageLayer.BACKGROUND);
+	}
+	
+	public void appendImageToDraw(BufferedImage image, int x, int y, ImageLayer layer) {
 		synchronized (imageToDraw) {
-			imageToDraw.add(new ImageToDraw(x, y, image));
+			imageToDraw.add(new ImageToDraw(x, y, image, layer));
 			//System.out.println(imageToDraw.size() + " images to draw");
 		}
 	}
 	
-	protected void drawImages(Graphics2D g2d) {
+	
+	protected void drawImagesAndClearBuffer(Graphics2D g2d) {
 		synchronized (imageToDraw) {
 			for (ImageToDraw img : imageToDraw) {
 				g2d.drawImage(img.image, img.x, img.y, null);
@@ -284,6 +295,21 @@ public class GL {
 		}
 	}
 	
+	protected void drawImages(Graphics2D g2d, ImageLayer layer) {
+		synchronized (imageToDraw) {
+			for (ImageToDraw img : imageToDraw) {
+				if(img.layer==null || img.layer.equals(layer)) {
+					g2d.drawImage(img.image, img.x, img.y, null);
+				}
+			}
+		}
+	}
+	
+	protected void clearImagesBuffer() {
+		synchronized (imageToDraw) {
+			imageToDraw.clear(); // empty image buffer
+		}
+	}
 	
 
 	/* ********************** TEXT MANAGEMENT WITH AWT ************************/
