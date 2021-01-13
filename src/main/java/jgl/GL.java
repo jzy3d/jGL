@@ -27,6 +27,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
@@ -58,18 +59,18 @@ public class GL {
 	protected gl_context Context = new gl_context();
 	protected gl_object CC = (gl_object) Context;
 	protected gl_list List;
-	
+
 	protected Component canvas;
 	protected Image glImage;
 	protected int StartX = 0;
 	protected int StartY = 0;
 	protected List<TextToDraw> textsToDraw = new ArrayList<>();
 	protected List<ImageToDraw> imageToDraw = new ArrayList<>();
-	
+
 	// settings
 	protected int shiftHorizontally = 0;
 	protected boolean clearBackgroundWithG2d = true;
-	protected boolean useOSFontRendering = false;
+	protected boolean useOSFontRendering = true;
 
 	public GL() {
 	}
@@ -120,8 +121,9 @@ public class GL {
 
 	/* ******************** PROVIDE IMAGE ********************/
 
-	/** 
-	 * Draws the image buffer that was built by {@link GL#glFlush()} with the caller {@link Graphics} context
+	/**
+	 * Draws the image buffer that was built by {@link GL#glFlush()} with the caller
+	 * {@link Graphics} context
 	 * 
 	 * OpenGL equivalent:
 	 * 
@@ -147,11 +149,10 @@ public class GL {
 		if (Context.RenderMode != GL_RENDER) {
 			return;
 		}
-		
+
 		// DEBUG
-		
-		//checkColorBuffer();
-		
+
+		// checkColorBuffer();
 
 		// ------------------------------------------
 		// Create an image producer based on
@@ -159,14 +160,12 @@ public class GL {
 		ImageProducer producer = new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height,
 				Context.ColorBuffer.Buffer, 0, Context.Viewport.Width);
 
-		//((MemoryImageSource)producer).setAnimated(true);
-		//((MemoryImageSource)producer).setFullBufferUpdates(true);
-		
+		// ((MemoryImageSource)producer).setAnimated(true);
+		// ((MemoryImageSource)producer).setFullBufferUpdates(true);
+
 		// Generates an image from the toolkit to use this producer
 		Image jGLColorBuffer = canvas.createImage(producer);
-		
-		
-		
+
 		// ------------------------------------------
 		// Write GL content in a temporary image
 		// and then to the image returned to Canvas
@@ -175,18 +174,17 @@ public class GL {
 				BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
+		configureRenderingHints(g2d);
 
 		// Hack background
-		if(clearBackgroundWithG2d)
+		if (clearBackgroundWithG2d)
 			hackClearColorWithG2DfillRect(g2d);
-
 
 		// Text that should appear BEHIND the scene's polygons
 		drawTexts(g2d);
 
-
 		// Images that should appear BEHIND the scene's polygons
-		//drawImagesAndClearBuffer(g2d);
+		// drawImagesAndClearBuffer(g2d);
 		drawImages(g2d, ImageLayer.BACKGROUND);
 
 		// Color buffer
@@ -194,13 +192,20 @@ public class GL {
 
 		// Text that should appear ON TOP of the scene's polygons
 		// ...
-		
+
 		// Images that should appear ON TOP of the scene's polygons
 		drawImages(g2d, ImageLayer.FOREGROUND);
 		clearImagesBuffer();
-		
-		//debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
 
+		// debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
+
+	}
+
+	protected void configureRenderingHints(Graphics2D g2d) {
+		RenderingHints rh = new RenderingHints(
+				RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2d.setRenderingHints(rh);
 	}
 
 	private void checkColorBuffer() {
@@ -208,29 +213,30 @@ public class GL {
 		int a255 = 0;
 		int black = 0;
 		int notBlack = 0;
-		
+
 		for (int i = 0; i < Context.ColorBuffer.Buffer.length; i++) {
 			int color = Context.ColorBuffer.Buffer[i];
-			
+
 			int r = gl_util.ItoR(color);
 			int g = gl_util.ItoG(color);
 			int b = gl_util.ItoB(color);
 			int a = gl_util.ItoA(color);
-			
+
 			// CHECK NUMBER OF BLACK PIXEL == ALPHA PIXELS
-			
-			if((r+g+b)==0)
+
+			if ((r + g + b) == 0)
 				black++;
-			if((r+g+b)>0)
+			if ((r + g + b) > 0)
 				notBlack++;
-			
-			if(a==0)
+
+			if (a == 0)
 				a0++;
-			if(a==255)
+			if (a == 255)
 				a255++;
 		}
-		
-		System.out.println("glFlush() #translucent = " + a0 + " #opaque = " + a255 + " #black=" + black + " #notBlack=" + notBlack);
+
+		System.out.println("glFlush() #translucent = " + a0 + " #opaque = " + a255 + " #black=" + black + " #notBlack="
+				+ notBlack);
 	}
 
 	protected void hackClearColorWithG2DfillRect(Graphics2D g2d) {
@@ -243,7 +249,7 @@ public class GL {
 		float r = gl_util.ItoR(color);
 		float g = gl_util.ItoG(color);
 		float b = gl_util.ItoB(color);
-		//float a = gl_util.ItoA(color);
+		// float a = gl_util.ItoA(color);
 		return new Color(r / 255, g / 255, b / 255);
 	}
 
@@ -251,22 +257,23 @@ public class GL {
 		int clearColor = getContext().ColorBuffer.IntClearColor;
 		return glIntToColor(clearColor);
 	}
-	
+
 	public void setShiftHoritontally(int shift) {
 		shiftHorizontally = shift;
 	}
 
-	
 	/* ********************** IMAGE OVERLAY WITH AWT ************************/
-	
-	public enum ImageLayer{FOREGROUND, BACKGROUND}
+
+	public enum ImageLayer {
+		FOREGROUND, BACKGROUND
+	}
 
 	class ImageToDraw {
 		public int x;
 		public int y;
 		public BufferedImage image;
 		public ImageLayer layer;
-		
+
 		public ImageToDraw(int x, int y, BufferedImage image, ImageLayer layer) {
 			super();
 			this.x = x;
@@ -283,15 +290,14 @@ public class GL {
 	public void appendImageToDraw(BufferedImage image, int x, int y) {
 		appendImageToDraw(image, x, y, ImageLayer.BACKGROUND);
 	}
-	
+
 	public void appendImageToDraw(BufferedImage image, int x, int y, ImageLayer layer) {
 		synchronized (imageToDraw) {
 			imageToDraw.add(new ImageToDraw(x, y, image, layer));
-			//System.out.println(imageToDraw.size() + " images to draw");
+			// System.out.println(imageToDraw.size() + " images to draw");
 		}
 	}
-	
-	
+
 	protected void drawImagesAndClearBuffer(Graphics2D g2d) {
 		synchronized (imageToDraw) {
 			for (ImageToDraw img : imageToDraw) {
@@ -300,26 +306,24 @@ public class GL {
 			imageToDraw.clear(); // empty image buffer
 		}
 	}
-	
+
 	protected void drawImages(Graphics2D g2d, ImageLayer layer) {
 		synchronized (imageToDraw) {
 			for (ImageToDraw img : imageToDraw) {
-				if(img.layer==null || img.layer.equals(layer)) {
+				if (img.layer == null || img.layer.equals(layer)) {
 					g2d.drawImage(img.image, img.x, img.y, null);
 				}
 			}
 		}
 	}
-	
+
 	protected void clearImagesBuffer() {
 		synchronized (imageToDraw) {
 			imageToDraw.clear(); // empty image buffer
 		}
 	}
-	
 
 	/* ********************** TEXT MANAGEMENT WITH AWT ************************/
-
 
 	/**
 	 * Renders appended text to given {@link Graphics2D} context.
@@ -342,17 +346,15 @@ public class GL {
 			g2d.setColor(Color.BLACK);
 		}
 
-		if(useOSFontRendering) {
+		if (useOSFontRendering) {
 			g2d.setFont(text.font);
-			g2d.drawString(text.string, text.x+shiftHorizontally, text.y);
-		}
-		else {
+			g2d.drawString(text.string, text.x + shiftHorizontally, text.y);
+		} else {
 			FontRenderContext frc = g2d.getFontRenderContext();
-		    GlyphVector gv = text.font.createGlyphVector(frc, text.string);
-		    g2d.drawGlyphVector(gv, text.x+shiftHorizontally, text.y);
+			GlyphVector gv = text.font.createGlyphVector(frc, text.string);
+			g2d.drawGlyphVector(gv, text.x + shiftHorizontally, text.y);
 		}
 	}
-
 
 	/**
 	 * To be called by {@link GLUT#glutBitmapString(Font, String, float, float)} to
@@ -5838,15 +5840,13 @@ public class GL {
 		glViewport(x, y, o.getSize().width, o.getSize().height);
 		Context.gl_initialize_context();
 		return GL_TRUE;
-	}	
-	
+	}
+
 	/* ********************************************************************** */
-	  
+
 	/* **************************** CONSTANTS ******************************* */
 
 	/* ********************************************************************** */
-	
-	
 
 	/* Constant of jGL */
 	/* Null values */
@@ -6425,6 +6425,4 @@ public class GL {
 	public static final int GLX_BAD_VALUE = 6;
 	public static final int GLX_BAD_ENUM = 7;
 
-
-	
 }
