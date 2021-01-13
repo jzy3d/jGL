@@ -301,7 +301,7 @@ public class GL {
 	protected void drawImagesAndClearBuffer(Graphics2D g2d) {
 		synchronized (imageToDraw) {
 			for (ImageToDraw img : imageToDraw) {
-				g2d.drawImage(img.image, img.x, img.y, null);
+				g2d.drawImage(img.image, img.x + shiftHorizontally, img.y, null);
 			}
 			imageToDraw.clear(); // empty image buffer
 		}
@@ -311,7 +311,7 @@ public class GL {
 		synchronized (imageToDraw) {
 			for (ImageToDraw img : imageToDraw) {
 				if (img.layer == null || img.layer.equals(layer)) {
-					g2d.drawImage(img.image, img.x, img.y, null);
+					g2d.drawImage(img.image, img.x + shiftHorizontally, img.y, null);
 				}
 			}
 		}
