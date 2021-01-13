@@ -27,6 +27,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
@@ -63,8 +65,11 @@ public class GL {
 	protected int StartY = 0;
 	protected List<TextToDraw> textsToDraw = new ArrayList<>();
 	protected List<ImageToDraw> imageToDraw = new ArrayList<>();
+	
+	// settings
 	protected int shiftHorizontally = 0;
 	protected boolean clearBackgroundWithG2d = true;
+	protected boolean useOSFontRendering = false;
 
 	public GL() {
 	}
@@ -176,20 +181,21 @@ public class GL {
 			hackClearColorWithG2DfillRect(g2d);
 
 
-		// Text that should appear behind the scene's polygons
+		// Text that should appear BEHIND the scene's polygons
 		drawTexts(g2d);
 
-		// Images that should appear behind the scene's polygons
+
+		// Images that should appear BEHIND the scene's polygons
 		//drawImagesAndClearBuffer(g2d);
 		drawImages(g2d, ImageLayer.BACKGROUND);
 
 		// Color buffer
 		g2d.drawImage(jGLColorBuffer, shiftHorizontally, 0, null);
 
-		// Text that should appear on top of the scene's polygons
+		// Text that should appear ON TOP of the scene's polygons
 		// ...
 		
-		// Images that should appear on top of the scene's polygons
+		// Images that should appear ON TOP of the scene's polygons
 		drawImages(g2d, ImageLayer.FOREGROUND);
 		clearImagesBuffer();
 		
@@ -323,17 +329,30 @@ public class GL {
 	protected void drawTexts(Graphics2D g2d) {
 		synchronized (textsToDraw) {
 			for (TextToDraw text : textsToDraw) {
-				g2d.setFont(text.font);
-				if (text.r >= 0) {
-					g2d.setColor(new Color(text.r, text.g, text.b));
-				} else {
-					g2d.setColor(Color.BLACK);
-				}
-				g2d.drawString(text.string, text.x+shiftHorizontally, text.y);
+				doDrawString(g2d, text);
 			}
 			textsToDraw.clear(); // empty text buffer
 		}
 	}
+
+	protected void doDrawString(Graphics2D g2d, TextToDraw text) {
+		if (text.r >= 0) {
+			g2d.setColor(new Color(text.r, text.g, text.b));
+		} else {
+			g2d.setColor(Color.BLACK);
+		}
+
+		if(useOSFontRendering) {
+			g2d.setFont(text.font);
+			g2d.drawString(text.string, text.x+shiftHorizontally, text.y);
+		}
+		else {
+			FontRenderContext frc = g2d.getFontRenderContext();
+		    GlyphVector gv = text.font.createGlyphVector(frc, text.string);
+		    g2d.drawGlyphVector(gv, text.x+shiftHorizontally, text.y);
+		}
+	}
+
 
 	/**
 	 * To be called by {@link GLUT#glutBitmapString(Font, String, float, float)} to
@@ -355,14 +374,14 @@ public class GL {
 		}
 	}
 
-	class TextToDraw {
-		Font font;
-		String string;
-		int x;
-		int y;
-		float r;
-		float g;
-		float b;
+	public class TextToDraw {
+		protected Font font;
+		protected String string;
+		protected int x;
+		protected int y;
+		protected float r;
+		protected float g;
+		protected float b;
 
 		public TextToDraw(Font font, String string, int x, int y) {
 			this(font, string, x, y, -1, -1, -1);
