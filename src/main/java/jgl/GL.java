@@ -32,7 +32,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.awt.image.MemoryImageSource;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -70,7 +69,7 @@ public class GL {
 	// settings
 	protected int shiftHorizontally = 0;
 	protected boolean clearBackgroundWithG2d = true;
-	protected boolean useOSFontRendering = true;
+	protected boolean useOSFontRendering = false;
 
 	public GL() {
 	}
@@ -151,17 +150,15 @@ public class GL {
 		}
 
 		// DEBUG
-
 		// checkColorBuffer();
 
 		// ------------------------------------------
 		// Create an image producer based on
 		// colorbuffer into which GL draws
-		ImageProducer producer = new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height,
+		MemoryImageSource producer = new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height,
 				Context.ColorBuffer.Buffer, 0, Context.Viewport.Width);
-
-		// ((MemoryImageSource)producer).setAnimated(true);
-		// ((MemoryImageSource)producer).setFullBufferUpdates(true);
+		// producer.setAnimated(true);
+		// producer.setFullBufferUpdates(true);
 
 		// Generates an image from the toolkit to use this producer
 		Image jGLColorBuffer = canvas.createImage(producer);
@@ -208,6 +205,10 @@ public class GL {
 		g2d.setRenderingHints(rh);
 	}
 
+	/** 
+	 * Print statistics about color buffer content for debugging.
+	 */
+	@SuppressWarnings("unused")
 	private void checkColorBuffer() {
 		int a0 = 0;
 		int a255 = 0;
@@ -245,6 +246,9 @@ public class GL {
 		g2d.fillRect(0, 0, Context.Viewport.Width, Context.Viewport.Height);
 	}
 
+	/**
+	 * Convert a color given as an integer to an AWT Color.
+	 */
 	public static Color glIntToColor(int color) {
 		float r = gl_util.ItoR(color);
 		float g = gl_util.ItoG(color);
@@ -253,14 +257,57 @@ public class GL {
 		return new Color(r / 255, g / 255, b / 255);
 	}
 
+	/**
+	 * @return the clear color as an AWT Color.
+	 */
 	public Color getClearColorAWT() {
 		int clearColor = getContext().ColorBuffer.IntClearColor;
 		return glIntToColor(clearColor);
 	}
 
-	public void setShiftHoritontally(int shift) {
-		shiftHorizontally = shift;
+	/**
+	 * @see {@link #setShiftHoritontally(int)}
+	 */
+	public int getShiftHorizontally() {
+		return shiftHorizontally;
 	}
+
+	/**
+	 * Allows shifting the image of the 3d scene and all images that have been
+	 * append with {@link #appendImageToDraw(BufferedImage)}
+	 * 
+	 * @param shift to the right if value is positive, to the left if the value is negative.
+	 */
+	public void setShiftHorizontally(int shiftHorizontally) {
+		this.shiftHorizontally = shiftHorizontally;
+	}
+
+	/**
+	 * @see {@link #setClearBackgroundWithG2d(boolean)}
+	 */
+	public boolean isClearBackgroundWithG2d() {
+		return clearBackgroundWithG2d;
+	}
+
+	/**
+	 * If true, will clear the background with a rectangle colored with the current GL clear color.
+	 */
+	public void setClearBackgroundWithG2d(boolean clearBackgroundWithG2d) {
+		this.clearBackgroundWithG2d = clearBackgroundWithG2d;
+	}
+
+	public boolean isUseOSFontRendering() {
+		return useOSFontRendering;
+	}
+
+	/**
+	 * If true, will use the OS for font rendering of all texts that have been 
+	 * append with {@link #appendTextToDraw(Font, String, int, int)} otherwise use
+	 * a JVM based font rendering.
+	 */
+	public void setUseOSFontRendering(boolean useOSFontRendering) {
+		this.useOSFontRendering = useOSFontRendering;
+	}	
 
 	/* ********************** IMAGE OVERLAY WITH AWT ************************/
 
