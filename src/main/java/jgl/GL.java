@@ -258,7 +258,7 @@ public class GL {
 		return glIntToColor(clearColor);
 	}
 
-	public void setShiftHoritontally(int shift) {
+	public void setShiftHorizontally(int shift) {
 		shiftHorizontally = shift;
 	}
 
