@@ -30,6 +30,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.MemoryImageSource;
@@ -38,9 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
-
 import jgl.context.gl_context;
 import jgl.context.gl_list;
 import jgl.context.gl_object;
@@ -172,7 +171,9 @@ public class GL {
 
 		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
 		configureRenderingHints(g2d);
-
+		
+		printGlobalScale(g2d);
+        
 		// Hack background
 		if (clearBackgroundWithG2d)
 			hackClearColorWithG2DfillRect(g2d);
@@ -197,6 +198,14 @@ public class GL {
 		// debugWriteImageTo("target/jGL.glFlush.png", (RenderedImage)JavaImage);
 
 	}
+
+  private void printGlobalScale(Graphics2D g2d) {
+    final AffineTransform globalTransform = g2d.getTransform();
+        final double globalScaleX = globalTransform.getScaleX();
+        final double globalScaleY = globalTransform.getScaleY();
+
+        System.out.println("globalScaleX:" + globalScaleX + " globalScaleY:" + globalScaleY);
+  }
 
 	protected void configureRenderingHints(Graphics2D g2d) {
 		RenderingHints rh = new RenderingHints(
