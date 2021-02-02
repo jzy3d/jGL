@@ -128,7 +128,13 @@ public class GL {
 	 * <code>void glXSwapBuffers (Display *dpy, GLXDrawable drawable)</code>
 	 */
 	public void glXSwapBuffers(Graphics g, ImageObserver o) {
-		g.drawImage(glImage, StartX, StartY, o);
+		//printGlobalScale((Graphics2D)g); // produce 1.5 factor on Win10 HiDPI
+	  
+	  getGlobalScale((Graphics2D)g);
+	  
+	  Image i = glImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_AREA_AVERAGING);
+	  
+	  g.drawImage(i, StartX, StartY, o);
 	}
 
 	public void glXSwapBuffers(Graphics g, Applet o) {
@@ -171,9 +177,7 @@ public class GL {
 
 		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
 		configureRenderingHints(g2d);
-		
-		printGlobalScale(g2d);
-        
+		        
 		// Hack background
 		if (clearBackgroundWithG2d)
 			hackClearColorWithG2DfillRect(g2d);
@@ -199,13 +203,24 @@ public class GL {
 
 	}
 
-  private void printGlobalScale(Graphics2D g2d) {
-    final AffineTransform globalTransform = g2d.getTransform();
-        final double globalScaleX = globalTransform.getScaleX();
-        final double globalScaleY = globalTransform.getScaleY();
+	int desiredWidth;
+    int desiredHeight;
+    double globalScaleX;
+    double globalScaleY;
 
-        System.out.println("globalScaleX:" + globalScaleX + " globalScaleY:" + globalScaleY);
-  }
+    private void getGlobalScale(Graphics2D g2d) {
+      AffineTransform globalTransform = g2d.getTransform();
+      globalScaleX = globalTransform.getScaleX();
+      globalScaleY = globalTransform.getScaleY();  
+    }
+
+    private void printGlobalScale(Graphics2D g2d) {
+      AffineTransform globalTransform = g2d.getTransform();
+      double globalScaleX = globalTransform.getScaleX();
+      double globalScaleY = globalTransform.getScaleY();
+  
+      System.out.println("globalScaleX:" + globalScaleX + " globalScaleY:" + globalScaleY);
+    }
 
 	protected void configureRenderingHints(Graphics2D g2d) {
 		RenderingHints rh = new RenderingHints(
@@ -1678,7 +1693,14 @@ public class GL {
 		if (height < 1) {
 			height = 1;
 		}
-		CC.gl_viewport(x, y, width, height);
+		
+		desiredWidth = width;
+        desiredHeight = height;
+        
+		if(globalScaleX>0 && globalScaleY>0)
+		  CC.gl_viewport(x, y, (int)(width * globalScaleX), (int)(height * globalScaleY));
+		else
+		  CC.gl_viewport(x, y, width, height);
 		/*
 		 * JavaImageSource = new MemoryImageSource (Context.Viewport.Width,
 		 * Context.Viewport.Height, Context.ColorBuffer.Buffer, 0,
