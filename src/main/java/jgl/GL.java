@@ -69,6 +69,8 @@ public class GL {
 	protected int shiftHorizontally = 0;
 	protected boolean clearBackgroundWithG2d = true;
 	protected boolean useOSFontRendering = false;
+	protected boolean autoAdaptToHDPI = true;
+	
 
 	public GL() {
 	}
@@ -128,13 +130,18 @@ public class GL {
 	 * <code>void glXSwapBuffers (Display *dpy, GLXDrawable drawable)</code>
 	 */
 	public void glXSwapBuffers(Graphics g, ImageObserver o) {
-		//printGlobalScale((Graphics2D)g); // produce 1.5 factor on Win10 HiDPI
+	  Graphics2D g2d = (Graphics2D)g;
+		//printGlobalScale(g2d); // produce 1.5 factor on Win10 HiDPI
 	  
-	  getGlobalScale((Graphics2D)g);
+	  if(autoAdaptToHDPI)
+	    getPixelScaleFromG2D(g2d);
+	  else
+	    resetPixelScale();
 	  
-	  Image i = glImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
-	  //Image i = glImage;
-	  g.drawImage(i, StartX, StartY, o);
+	  //Image i = glImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
+	  Image i = glImage;
+	  //g.drawImage(i, StartX, StartY, o);
+	  g.drawImage(glImage, StartX, StartY, desiredWidth, desiredHeight, o);
 	}
 
 	public void glXSwapBuffers(Graphics g, Applet o) {
@@ -178,8 +185,6 @@ public class GL {
 		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
 		configureRenderingHints(g2d);
 		
-		//g2d.scale(1/globalScaleX, 1/globalScaleY); // worse than scaling final image
-		        
 		// Hack background
 		if (clearBackgroundWithG2d)
 			hackClearColorWithG2DfillRect(g2d);
@@ -205,18 +210,23 @@ public class GL {
 
 	}
 
-	int desiredWidth;
-    int desiredHeight;
-    double globalScaleX;
-    double globalScaleY;
+	int desiredWidth = 0;
+    int desiredHeight = 0;
+    double pixelScaleX = 1;
+    double pixelScaleY = 1;
 
-    private void getGlobalScale(Graphics2D g2d) {
+    protected void getPixelScaleFromG2D(Graphics2D g2d) {
       AffineTransform globalTransform = g2d.getTransform();
-      globalScaleX = globalTransform.getScaleX();
-      globalScaleY = globalTransform.getScaleY();  
+      pixelScaleX = globalTransform.getScaleX();
+      pixelScaleY = globalTransform.getScaleY();  
+    }
+    
+    protected void resetPixelScale() {
+      pixelScaleX = 1;
+      pixelScaleY = 1;  
     }
 
-    private void printGlobalScale(Graphics2D g2d) {
+    protected void printGlobalScale(Graphics2D g2d) {
       AffineTransform globalTransform = g2d.getTransform();
       double globalScaleX = globalTransform.getScaleX();
       double globalScaleY = globalTransform.getScaleY();
@@ -1699,8 +1709,8 @@ public class GL {
 		desiredWidth = width;
         desiredHeight = height;
         
-		if(globalScaleX>0 && globalScaleY>0)
-		  CC.gl_viewport(x, y, (int)(width * globalScaleX), (int)(height * globalScaleY));
+		if(pixelScaleX>0 && pixelScaleY>0)
+		  CC.gl_viewport(x, y, (int)(width * pixelScaleX), (int)(height * pixelScaleY));
 		else
 		  CC.gl_viewport(x, y, width, height);
 		/*
