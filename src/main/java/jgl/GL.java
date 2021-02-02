@@ -132,8 +132,8 @@ public class GL {
 	  
 	  getGlobalScale((Graphics2D)g);
 	  
-	  Image i = glImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_AREA_AVERAGING);
-	  
+	  Image i = glImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
+	  //Image i = glImage;
 	  g.drawImage(i, StartX, StartY, o);
 	}
 
@@ -177,6 +177,8 @@ public class GL {
 
 		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
 		configureRenderingHints(g2d);
+		
+		//g2d.scale(1/globalScaleX, 1/globalScaleY); // worse than scaling final image
 		        
 		// Hack background
 		if (clearBackgroundWithG2d)
