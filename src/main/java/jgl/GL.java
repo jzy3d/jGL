@@ -131,16 +131,15 @@ public class GL {
 	 */
 	public void glXSwapBuffers(Graphics g, ImageObserver o) {
 	  Graphics2D g2d = (Graphics2D)g;
-		//printGlobalScale(g2d); // produce 1.5 factor on Win10 HiDPI
+	  //printGlobalScale(g2d); 
+      // produce 2.0 factory on MacOS with Retina
+	  // produce 1.5 factor on Win10 HiDPI on the same Apple hardware as above
 	  
 	  if(autoAdaptToHDPI)
 	    getPixelScaleFromG2D(g2d);
 	  else
 	    resetPixelScale();
 	  
-	  //Image i = glImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
-	  Image i = glImage;
-	  //g.drawImage(i, StartX, StartY, o);
 	  g.drawImage(glImage, StartX, StartY, desiredWidth, desiredHeight, o);
 	}
 
