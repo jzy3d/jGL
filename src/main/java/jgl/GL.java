@@ -30,6 +30,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.MemoryImageSource;
@@ -38,9 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
-
 import jgl.context.gl_context;
 import jgl.context.gl_list;
 import jgl.context.gl_object;
@@ -70,6 +69,8 @@ public class GL {
 	protected int shiftHorizontally = 0;
 	protected boolean clearBackgroundWithG2d = true;
 	protected boolean useOSFontRendering = false;
+	protected boolean autoAdaptToHiDPI = true;
+	
 
 	public GL() {
 	}
@@ -129,7 +130,17 @@ public class GL {
 	 * <code>void glXSwapBuffers (Display *dpy, GLXDrawable drawable)</code>
 	 */
 	public void glXSwapBuffers(Graphics g, ImageObserver o) {
-		g.drawImage(glImage, StartX, StartY, o);
+	  Graphics2D g2d = (Graphics2D)g;
+	  //printGlobalScale(g2d); 
+      // produce 2.0 factory on MacOS with Retina
+	  // produce 1.5 factor on Win10 HiDPI on the same Apple hardware as above
+	  
+	  if(autoAdaptToHiDPI)
+	    getPixelScaleFromG2D(g2d);
+	  else
+	    resetPixelScale();
+	  
+	  g.drawImage(glImage, StartX, StartY, desiredWidth, desiredHeight, o);
 	}
 
 	public void glXSwapBuffers(Graphics g, Applet o) {
@@ -172,7 +183,7 @@ public class GL {
 
 		Graphics2D g2d = (Graphics2D) glImage.getGraphics();
 		configureRenderingHints(g2d);
-
+		
 		// Hack background
 		if (clearBackgroundWithG2d)
 			hackClearColorWithG2DfillRect(g2d);
@@ -198,6 +209,30 @@ public class GL {
 
 	}
 
+	int desiredWidth = 0;
+    int desiredHeight = 0;
+    double pixelScaleX = 1;
+    double pixelScaleY = 1;
+
+    protected void getPixelScaleFromG2D(Graphics2D g2d) {
+      AffineTransform globalTransform = g2d.getTransform();
+      pixelScaleX = globalTransform.getScaleX();
+      pixelScaleY = globalTransform.getScaleY();  
+    }
+    
+    protected void resetPixelScale() {
+      pixelScaleX = 1;
+      pixelScaleY = 1;  
+    }
+
+    protected void printGlobalScale(Graphics2D g2d) {
+      AffineTransform globalTransform = g2d.getTransform();
+      double globalScaleX = globalTransform.getScaleX();
+      double globalScaleY = globalTransform.getScaleY();
+  
+      System.out.println("globalScaleX:" + globalScaleX + " globalScaleY:" + globalScaleY);
+    }
+
 	protected void configureRenderingHints(Graphics2D g2d) {
 		RenderingHints rh = new RenderingHints(
 				RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -209,7 +244,7 @@ public class GL {
 	 * Print statistics about color buffer content for debugging.
 	 */
 	@SuppressWarnings("unused")
-	private void checkColorBuffer() {
+	protected void checkColorBuffer() {
 		int a0 = 0;
 		int a255 = 0;
 		int black = 0;
@@ -308,10 +343,26 @@ public class GL {
 	public void setUseOSFontRendering(boolean useOSFontRendering) {
 		this.useOSFontRendering = useOSFontRendering;
 	}	
+	
+    public boolean isAutoAdaptToHiDPI() {
+      return autoAdaptToHiDPI;
+    }
+  
+    /**
+     * If true, will consider pixel resolution of an HiDPI device to render chart with a better look. 
+     * Texts render smaller as the font size is given in pixel. To avoid this, either use bigger font size or disable HiDPI adaptation.
+     */
+    public void setAutoAdaptToHiDPI(boolean autoAdaptToHiDPI) {
+      this.autoAdaptToHiDPI = autoAdaptToHiDPI;
+    }
+	
 
 	/* ********************** IMAGE OVERLAY WITH AWT ************************/
 
-	public enum ImageLayer {
+
+
+
+  public enum ImageLayer {
 		FOREGROUND, BACKGROUND
 	}
 
@@ -1669,7 +1720,14 @@ public class GL {
 		if (height < 1) {
 			height = 1;
 		}
-		CC.gl_viewport(x, y, width, height);
+		
+		desiredWidth = width;
+        desiredHeight = height;
+        
+		if(pixelScaleX>0 && pixelScaleY>0)
+		  CC.gl_viewport(x, y, (int)(width * pixelScaleX), (int)(height * pixelScaleY));
+		else
+		  CC.gl_viewport(x, y, width, height);
 		/*
 		 * JavaImageSource = new MemoryImageSource (Context.Viewport.Width,
 		 * Context.Viewport.Height, Context.ColorBuffer.Buffer, 0,

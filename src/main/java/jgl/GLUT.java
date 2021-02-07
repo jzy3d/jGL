@@ -350,7 +350,7 @@ public class GLUT implements Runnable {
   /** void glutInitWindowPosition (int x, int y) */
   public void glutInitWindowPosition(int x, int y) {
     WindowX = x;
-    WindowY = y;
+    WindowY = y;    
   }
 
   /** void glutInitWindowSize (int width, int height) */
