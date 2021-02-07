@@ -69,7 +69,7 @@ public class GL {
 	protected int shiftHorizontally = 0;
 	protected boolean clearBackgroundWithG2d = true;
 	protected boolean useOSFontRendering = false;
-	protected boolean autoAdaptToHDPI = true;
+	protected boolean autoAdaptToHiDPI = true;
 	
 
 	public GL() {
@@ -135,7 +135,7 @@ public class GL {
       // produce 2.0 factory on MacOS with Retina
 	  // produce 1.5 factor on Win10 HiDPI on the same Apple hardware as above
 	  
-	  if(autoAdaptToHDPI)
+	  if(autoAdaptToHiDPI)
 	    getPixelScaleFromG2D(g2d);
 	  else
 	    resetPixelScale();
@@ -244,7 +244,7 @@ public class GL {
 	 * Print statistics about color buffer content for debugging.
 	 */
 	@SuppressWarnings("unused")
-	private void checkColorBuffer() {
+	protected void checkColorBuffer() {
 		int a0 = 0;
 		int a255 = 0;
 		int black = 0;
@@ -343,10 +343,26 @@ public class GL {
 	public void setUseOSFontRendering(boolean useOSFontRendering) {
 		this.useOSFontRendering = useOSFontRendering;
 	}	
+	
+    public boolean isAutoAdaptToHiDPI() {
+      return autoAdaptToHiDPI;
+    }
+  
+    /**
+     * If true, will consider pixel resolution of an HiDPI device to render chart with a better look. 
+     * Texts render smaller as the font size is given in pixel. To avoid this, either use bigger font size or disable HiDPI adaptation.
+     */
+    public void setAutoAdaptToHiDPI(boolean autoAdaptToHiDPI) {
+      this.autoAdaptToHiDPI = autoAdaptToHiDPI;
+    }
+	
 
 	/* ********************** IMAGE OVERLAY WITH AWT ************************/
 
-	public enum ImageLayer {
+
+
+
+  public enum ImageLayer {
 		FOREGROUND, BACKGROUND
 	}
 
