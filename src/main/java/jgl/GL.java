@@ -209,17 +209,23 @@ public class GL {
 
 	}
 
-	int desiredWidth = 0;
-    int desiredHeight = 0;
-    double pixelScaleX = 1;
-    double pixelScaleY = 1;
+	/** Width after considering pixel scale induced by HiDPI. */
+	protected int desiredWidth = 0;
+    /** Height after considering pixel scale induced by HiDPI. */
+	protected int desiredHeight = 0;
+    /** Horizontal pixel scale induced by HiDPI. */
+	protected double pixelScaleX = 1;
+    /** Vertical pixel scale induced by HiDPI. */
+	protected double pixelScaleY = 1;
 
+    /** Pixel scale is used to model the pixel ratio introduced by HiDPI */
     protected void getPixelScaleFromG2D(Graphics2D g2d) {
       AffineTransform globalTransform = g2d.getTransform();
       pixelScaleX = globalTransform.getScaleX();
       pixelScaleY = globalTransform.getScaleY();  
     }
     
+    /** Reset pixel scale to (1,1) */
     protected void resetPixelScale() {
       pixelScaleX = 1;
       pixelScaleY = 1;  
@@ -355,14 +361,10 @@ public class GL {
     public void setAutoAdaptToHiDPI(boolean autoAdaptToHiDPI) {
       this.autoAdaptToHiDPI = autoAdaptToHiDPI;
     }
-	
 
 	/* ********************** IMAGE OVERLAY WITH AWT ************************/
 
-
-
-
-  public enum ImageLayer {
+    public enum ImageLayer {
 		FOREGROUND, BACKGROUND
 	}
 
