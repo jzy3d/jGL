@@ -65,6 +65,15 @@ public class GL {
 	protected List<TextToDraw> textsToDraw = new ArrayList<>();
 	protected List<ImageToDraw> imageToDraw = new ArrayList<>();
 
+	/** Width after considering pixel scale induced by HiDPI. */
+    protected int desiredWidth = 0;
+    /** Height after considering pixel scale induced by HiDPI. */
+    protected int desiredHeight = 0;
+    /** Horizontal pixel scale induced by HiDPI. */
+    protected double pixelScaleX = 1;
+    /** Vertical pixel scale induced by HiDPI. */
+    protected double pixelScaleY = 1;
+
 	// settings
 	protected int shiftHorizontally = 0;
 	protected boolean clearBackgroundWithG2d = true;
@@ -86,8 +95,16 @@ public class GL {
 	public Image getRenderedImage() {
 		return glImage;
 	}
+	
+	public double getPixelScaleX() {
+      return pixelScaleX;
+    }
 
-	/** the following functions are only for developpers **/
+	public double getPixelScaleY() {
+      return pixelScaleY;
+    }
+
+  /** the following functions are only for developpers **/
 	public MemoryImageSource glJGetImageSource() {
 		return new MemoryImageSource(Context.Viewport.Width, Context.Viewport.Height, Context.ColorBuffer.Buffer, 0,
 				Context.Viewport.Width);
@@ -209,14 +226,6 @@ public class GL {
 
 	}
 
-	/** Width after considering pixel scale induced by HiDPI. */
-	protected int desiredWidth = 0;
-    /** Height after considering pixel scale induced by HiDPI. */
-	protected int desiredHeight = 0;
-    /** Horizontal pixel scale induced by HiDPI. */
-	protected double pixelScaleX = 1;
-    /** Vertical pixel scale induced by HiDPI. */
-	protected double pixelScaleY = 1;
 
     /** Pixel scale is used to model the pixel ratio introduced by HiDPI */
     protected void getPixelScaleFromG2D(Graphics2D g2d) {
