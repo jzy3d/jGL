@@ -65,20 +65,27 @@ public class GL {
 	protected List<TextToDraw> textsToDraw = new ArrayList<>();
 	protected List<ImageToDraw> imageToDraw = new ArrayList<>();
 
-	/** Width after considering pixel scale induced by HiDPI. */
+	// settings
+	protected int shiftHorizontally = 0;
+	/** Activate a hack because of inappropriate glClear command behaviour */
+	protected boolean clearBackgroundWithG2d = true;
+	/** Disabling OS Font rendering and using direct JVM allows better consistency among chart which improve pixel-wise tests for portability */
+	protected boolean useOSFontRendering = false;
+	
+	/** This property allows to automatically read pixel scale of the parent canvas while getting its Graphics2D context {@link glXSwapBuffers}*/
+	protected boolean autoAdaptToHiDPI = true;
+    /** Width queried to gl.glViewport without considering HiDPI, e.g. by simply using the EmulGLCanvas size. */
     protected int desiredWidth = 0;
-    /** Height after considering pixel scale induced by HiDPI. */
+    /** Height queried to gl.glViewport without considering HiDPI, e.g. by simply using the EmulGLCanvas size. */
     protected int desiredHeight = 0;
     /** Horizontal pixel scale induced by HiDPI. */
     protected double pixelScaleX = 1;
     /** Vertical pixel scale induced by HiDPI. */
     protected double pixelScaleY = 1;
-
-	// settings
-	protected int shiftHorizontally = 0;
-	protected boolean clearBackgroundWithG2d = true;
-	protected boolean useOSFontRendering = false;
-	protected boolean autoAdaptToHiDPI = true;
+    /** Width after considering pixel scale induced by HiDPI. */
+    protected int actualWidth = 0;
+    /** Height after considering pixel scale induced by HiDPI. */
+    protected int actualHeight = 0;
 	
 
 	public GL() {
@@ -1734,9 +1741,11 @@ public class GL {
 		
 		desiredWidth = width;
         desiredHeight = height;
+        actualWidth = (int)(width * pixelScaleX);
+        actualHeight = (int)(height * pixelScaleY);
         
 		if(pixelScaleX>0 && pixelScaleY>0)
-		  CC.gl_viewport(x, y, (int)(width * pixelScaleX), (int)(height * pixelScaleY));
+		  CC.gl_viewport(x, y, actualWidth, actualHeight);
 		else
 		  CC.gl_viewport(x, y, width, height);
 		/*
