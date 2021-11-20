@@ -1,14 +1,14 @@
 # jGL
 
-A pure Java implementation of OpenGL, still [online](http://graphics.im.ntu.edu.tw/~robin/jGL/) with [example gallery](http://graphics.im.ntu.edu.tw/~robin/jGL/Example/index.html) and an [LGPL licence](http://www.gnu.org/licenses/lgpl-3.0.html)
+A pure Java implementation of OpenGL, still [online](https://www.cmlab.csie.ntu.edu.tw/~robin/jGL/) with [example gallery](https://www.cmlab.csie.ntu.edu.tw/~robin/jGL/Example/index.html) and an [LGPL licence](https://www.gnu.org/licenses/lgpl-3.0.html)
 
 
 # History
 
-[jGL](http://www.cmlab.csie.ntu.edu.tw/~robin/jGL/) was created by Robin Bing-Yu Chen in 1996 and has been maintained up to 2006. 
+[jGL](https://www.cmlab.csie.ntu.edu.tw/~robin/jGL/) was created by Robin Bing-Yu Chen in 1996 and has been maintained up to 2006. 
 It is a pure java implementation of OpenGL 1, hence performing 3d rendering with CPU instead of GPU. 
 Some papers about jGL published by Robin have been added to the `doc/papers` folder which clarify all his work.
-It comes with [lot of OpenGL Red Book examples](http://www.cmlab.csie.ntu.edu.tw/~robin/jGL/Example-app/index.html) proving how well
+It comes with [lot of OpenGL Red Book examples](https://www.cmlab.csie.ntu.edu.tw/~robin/jGL/Example-app/index.html) proving how well
 this OpenGL implementation works. The examples are released as [AWT applications](https://github.com/jzy3d/jGL/tree/master/src/main/java/examples/apps)
 and [Applets](https://github.com/jzy3d/jGL/tree/master/src/main/java/examples/applets).
 
@@ -85,7 +85,7 @@ rendering at all until the Paint event
 
 You should add this to your pom file dependencies node:
 
-```
+```xml
 <dependency>
     <groupId>org.jzy3d</groupId>
     <artifactId>jGL</artifactId>
@@ -95,17 +95,17 @@ You should add this to your pom file dependencies node:
 
 Maven artifacts are stored there (you should add this to your pom file root):
 
-```
+```xml
 <repositories>
     <repository>
         <id>jzy3d-snapshots</id>
         <name>Jzy3d Snapshots</name>
-        <url>http://maven.jzy3d.org/snapshots/</url>
+        <url>https://maven.jzy3d.org/snapshots/</url>
     </repository>
     <repository>
         <id>jzy3d-releases</id>
         <name>Jzy3d Releases</name>
-        <url>http://maven.jzy3d.org/releases/</url>
+        <url>https://maven.jzy3d.org/releases/</url>
     </repository>
 </repositories>
 ```
@@ -192,18 +192,17 @@ GL.glFlush()
 
 
 # Javadoc and UML documentation
-Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/downloads#yDoc).
-Configuration file in doc/yfiles.uml.options.jgl.linux
-Run ```javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jgl.linux```
+Javadoc with UML generated with [yFiles Doclet tool](https://www.yworks.com/downloads#yDoc).  
+Configuration file in `doc/yfiles.uml.options.jgl.linux`  
+Run `javadoc @/Users/martin/Dev/jzy3d/public/jGL/doc/uml/yfiles.uml.options.jgl.linux`
 
 
  
 # Features
 
-|Name          |Tested |Integrated in Jzy3D|Version| 
-----------------------------------------------------
-|Alpha blending|Yes    |Yes                |2.5    | 
+|Name          |Tested |Integrated in Jzy3D|Version|
+| ------------ | ----- | ----------------- | ----- |
+|Alpha blending|Yes    |Yes                |2.5    |
 |Text          |Yes    |Yes                |2.5    |
-|Lightning     |No     |No                 |2.4    | 
- 
+|Lightning     |No     |No                 |2.4    |
 
